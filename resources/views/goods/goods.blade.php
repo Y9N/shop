@@ -17,7 +17,7 @@
             <td>{{$v['goods_id']}}</td>
             <td>{{$v['goods_name']}}</td>
             <td>{{$v['score']}}</td>
-            <td><a href="/cart/add/{{$v['goods_id']}}">查看</a></td>
+            <td><a href="/cart/goodslist/{{$v['goods_id']}}">查看</a></td>
         </tr>
         @endforeach
     </table>

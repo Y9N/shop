@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Model\CmsShop;
+use App\Model\CmsGoods;
 
 class UserController extends Controller
 {
@@ -69,9 +70,11 @@ class UserController extends Controller
 		$id = CmsShop::insert($data);
 		//var_dump($id);
 		if($id){
+			$token = substr(md5(time().mt_rand(1,99999)),10,10);
 			echo '注册成功';
 			setcookie('uid',$id,time()+86400,'/','larvel.com',false,true);
-			header("refresh:1;'/userlist'");
+			$request->session()->put('u_token',$token);
+			header("refresh:1;'/goodslist'");
 		}else{
 			echo '注册失败';
 		}
@@ -97,18 +100,26 @@ class UserController extends Controller
 			$token = substr(md5(time().mt_rand(1,99999)),10,10);
 			setcookie('uid',$uid,time()+86400,'/','larvel.com',false,true);
 			setcookie('token',$token,time()+86400,'/userlist','',false,true);
-			header("refresh:2;'/userlist'");
+			$request->session()->put('u_token',$token);
+			$request->session()->put('u_id',$uid);
+
+			header("refresh:2;'/goodslist'");
 		}else{
 			echo '登录失败';
 		}
 	}
 	public function list(){
 		if(empty($_COOKIE['uid'])){
+			header("refresh:2;'/userlogin'");
 			exit('请先登录呀！！！！');
 		}else{
 			$id=$_COOKIE['uid'];
-			$data=CmsShop::where('id',$id)->first();
-			return view('users.list',$data);
+			//$data=CmsShop::where('id',$id)->first();
+			$array=CmsGoods::all()->toArray();
+			/*$data=[
+				'array'=>$array
+			];*/
+			return view('users.list',['array'=>$array]);
 		}
 
 	}
