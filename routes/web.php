@@ -73,3 +73,7 @@ Route::get('/cart/del/{goods_id}','Cart\IndexController@del')->middleware('check
 Route::get('/cart/del2/{goods_id}','Cart\IndexController@del2')->middleware('check.login.token');
 /*查看商品详情*/
 Route::get('/cart/goodslist/{goods_id}','Goods\GoodsController@goodslist');
+/*生成订单*/
+Route::post('/order','Order\OrderController@createorder')->middleware('check.login.token');
+/*订单查看*/
+Route::get('/orderlist','Order\OrderController@orderlist')->middleware('check.login.token');

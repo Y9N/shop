@@ -5,7 +5,7 @@
 @endsection
 @section('content')
     <h1 align="center">购物车展示</h1>
-    <table class="table-bordered" style="margin-left: 280px;width:800px">
+    <table class="table-bordered" style="margin-left: 280px;width:700px">
         <tr>
             <td>id</td>
             <td>商品名称</td>
@@ -22,6 +22,14 @@
             <td><a href="/cart/del2/{{$v['goods_id']}}">删除</a></td>
         </tr>
         @endforeach
+        <tr>
+            <td colspan="5">
+                <form action="/order" method="post">
+                    {{csrf_field()}}
+                    <input type="submit" style="float: right;" class="btn btn-info" value="结算">
+                </form>
+            </td>
+        </tr>
     </table>
 @endsection
 @section('footer')

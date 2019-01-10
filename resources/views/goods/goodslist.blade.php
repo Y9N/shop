@@ -14,6 +14,7 @@
     <input type="hidden" value="{{$goods_id}}" name="goods_id">
     <input type="submit" value="加入购物车">
     </form>
+    <a role="button" href="/cart2" class="btn btn-primary btn-xs">查看购物车</a>
 @endsection
 @section('footer')
 @endsection
