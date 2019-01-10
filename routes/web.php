@@ -77,3 +77,11 @@ Route::get('/cart/goodslist/{goods_id}','Goods\GoodsController@goodslist');
 Route::post('/order','Order\OrderController@createorder')->middleware('check.login.token');
 /*订单查看*/
 Route::get('/orderlist','Order\OrderController@orderlist')->middleware('check.login.token');
+/*取消订单*/
+Route::get('/orderdel/{order_number}','Order\OrderController@orderdel')->middleware('check.login.token');
+/*订单支付*/
+Route::get('/orderpay/{order_number}','Pay\PayController@orderpay')->middleware('check.login.token');
+/*用户详情*/
+Route::get('/userlist','User\UserController@userlist')->middleware('check.login.token');
+/*用户退出*/
+Route::get('/userquit','User\UserController@userquit');

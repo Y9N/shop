@@ -62,7 +62,7 @@ class OrderController extends Controller
 	 *
 	 * */
 	public  function orderlist(){
-		$orderdata=CmsOrder::where('uid',$this->uid)->get()->toArray();
+		$orderdata=CmsOrder::where('uid',$this->uid)->where('is_del',1)->get()->toArray();
 		if(!$orderdata){
 			die('无订单数据');
 		}else{
@@ -72,5 +72,19 @@ class OrderController extends Controller
 			return view('order.order',$data);
 		}
 	}
-
+	/*
+	 * 订单删除*/
+	public function orderdel($order_number){
+		$orderdata=CmsOrder::where('order_number',$order_number)->where('uid',$this->uid)->first();
+		if(!$orderdata){
+			die('无订单信息');
+		}else{
+			$res=CmsOrder::where('order_number',$order_number)->where('uid',$this->uid)->update(['is_del'=>2]);
+			if($res){
+				echo '取消订单成功';
+			}else{
+				echo '取消订单失败';
+			}
+		}
+	}
 }

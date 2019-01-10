@@ -67,13 +67,14 @@ class UserController extends Controller
 		if(empty($data['email'])){
 			exit('邮箱必填');
 		}
-		$id = CmsShop::insert($data);
+		$id = CmsShop::insertGetId($data);
 		//var_dump($id);
 		if($id){
 			$token = substr(md5(time().mt_rand(1,99999)),10,10);
 			echo '注册成功';
 			setcookie('uid',$id,time()+86400,'/','larvel.com',false,true);
 			$request->session()->put('u_token',$token);
+			$request->session()->put('u_id',$id);
 			header("refresh:1;'/goodslist'");
 		}else{
 			echo '注册失败';
@@ -122,5 +123,16 @@ class UserController extends Controller
 			return view('users.list',['array'=>$array]);
 		}
 
+	}
+	/*用户中心*/
+	public function userlist(){
+		$uid=session()->get('u_id');
+		$data=CmsShop::where('id',$uid)->first();
+		return view('users.userlist',$data);
+	}
+	/*用户退出*/
+	public function userquit(){
+		session()->pull('u_token',null);
+		header("refresh:0;url=/userlogin");
 	}
 }
