@@ -102,11 +102,7 @@ class IndexController extends Controller
 		if($cart_goods){
 			$goods_id_arr = array_column($cart_goods,'goods_id');
 			if(in_array($goods_id,$goods_id_arr)){
-				$response = [
-						'errno' => 5002,
-						'msg'   => '商品已在购物车中，请勿重复添加'
-				];
-				return $response;
+				 die('商品已在购物车中，请勿重复添加');
 			}
 		}
 		$data=[

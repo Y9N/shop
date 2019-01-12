@@ -85,3 +85,4 @@ Route::get('/orderpay/{order_number}','Pay\PayController@orderpay')->middleware(
 Route::get('/userlist','User\UserController@userlist')->middleware('check.login.token');
 /*用户退出*/
 Route::get('/userquit','User\UserController@userquit');
+Route::get('/pay','Pay\PayController@pay');

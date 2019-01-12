@@ -13,6 +13,12 @@ use DB;
 
 class PayController extends Controller
 {
+	public function pay(){
+		$url='http://yc.tactshan.com/';
+		$client=new Client(['base_uri'=>$url,'timeout'=>2.0,]);
+		$response=$client->request('GET','/index.php');
+		echo $response->getBody();
+	}
 	public $uid;
 	public function __construct()
 	{
