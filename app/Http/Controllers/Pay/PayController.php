@@ -8,9 +8,8 @@ use App\Model\CmsOrder;
 use App\Model\CmsShop;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use GuzzleHttp\Client;
 use DB;
-use Symfony\Component\HttpKernel\Client;
 
 class PayController extends Controller
 {
