@@ -7,10 +7,18 @@
     use GuzzleHttp\Client;
     class AlipayController extends Controller{
         //
-        public $app_id = '2016092200571971';
-        public $gate_way = 'https://openapi.alipaydev.com/gateway.do';
-        public $notify_url = 'http://188.131.185.180/public/index.php/order/notify';
-        public $rsaPrivateKeyFilePath = './key/priv.key';
+        public $app_id;
+        public $gate_way;
+        public $notify_url;
+        public $rsaPrivateKeyFilePath;
+
+        public function __construct()
+        {
+            $this->app_id=env('ALIPAY_APID');
+            $this->gate_way=env('ALIPAY_GATE_WAY');
+            $this->notify_url=env('ALIPAY_NOTIFY_URL');
+            $this->rsaPrivateKeyFilePath=env('ALIPAY_RSA_Private_Key_File_Path');
+        }
 
         /*
          * 请求订单服务 处理订单逻辑

@@ -12,7 +12,6 @@ use DB;
 class GoodsController extends Controller
 {
 	public function goods(){
-			$id=$_COOKIE['uid'];
 			$array=CmsGoods::all()->toArray();
 			return view('goods.goods',['array'=>$array]);
 		}
