@@ -40,7 +40,8 @@ class PayController extends Controller
 		if($order_info->pay_time > 0){
 			die("此订单已被支付，无法再次支付");
 		}
-		$res=CmsOrder::where(['order_number'=>$order_number])->update(['pay_time'=>time(),'pay_amount'=>rand(1111,9999),'is_pay'=>1]);
+		header('refresh:0;url=/pay/alipay/test');
+		/*$res=CmsOrder::where(['order_number'=>$order_number])->update(['pay_time'=>time(),'pay_amount'=>rand(1111,9999),'is_pay'=>1]);
 		if($res){
 			echo '支付成功';
 			$pay_amount=CmsOrder::where(['order_number'=>$order_number])->value('pay_amount');
@@ -50,6 +51,6 @@ class PayController extends Controller
 			CmsShop::where('id',$this->uid)->update(['integral'=>$new_integral]);
 		}else{
 			echo '支付失败';
-		}
+		}*/
 	}
 }

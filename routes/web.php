@@ -86,3 +86,6 @@ Route::get('/userlist','User\UserController@userlist')->middleware('check.login.
 /*用户退出*/
 Route::get('/userquit','User\UserController@userquit');
 Route::get('/pay','Pay\PayController@pay');
+
+Route::get('/pay/alipay/test','Pay\AlipayController@test');
+Route::post('/pay/alipay/notify','Pay\AlipayController@notify');
