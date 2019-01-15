@@ -213,7 +213,7 @@
                 CmsOrder::where(['order_number'=>$oid])->update($info);
             }
             //处理订单逻辑
-            $this->dealOrder($_POST);
+            //$this->dealOrder($_POST);
 
             echo 'success';
         }
@@ -249,9 +249,9 @@
             $params['sign'] = null;
             return $this->verify($this->getSignContent($params), $sign, $rsaPublicKeyFilePath,$signType);
         }
-        public function dealOrder($_POST){
+/*        public function dealOrder($_POST){
             print_r($_POST);
-        /*$res=CmsOrder::where(['order_number'=>$order_number])->update(['pay_time'=>time(),'pay_amount'=>rand(1111,9999),'is_pay'=>1]);
+        $res=CmsOrder::where(['order_number'=>$order_number])->update(['pay_time'=>time(),'pay_amount'=>rand(1111,9999),'is_pay'=>1]);
 		if($res){
 			echo '支付成功';
 			$pay_amount=CmsOrder::where(['order_number'=>$order_number])->value('pay_amount');
@@ -261,7 +261,7 @@
 			CmsShop::where('id',$this->uid)->update(['integral'=>$new_integral]);
 		}else{
 			echo '支付失败';
-		}*/
-        }
+		}
+        }*/
     }
 ?>
