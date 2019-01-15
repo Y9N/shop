@@ -167,6 +167,7 @@
             if(!$this->verify($_GET)){
                 echo 'error';
             }else{
+                echo $_GET['app_id'];
                 echo '支付成功，正在跳转';
                 header('refresh:2;url=/orderlist');
             }
@@ -197,6 +198,20 @@
                 file_put_contents('logs/alipay.log',$log_str,FILE_APPEND);
             }
 
+
+            if($_POST['trade_status']=='TRADE_SUCCESS'){
+                //更新订单状态
+                $oid = $_POST['out_trade_no'];     //商户订单号
+                $info = [
+                    'is_pay'        => 1,       //支付状态  0未支付 1已支付
+                    'pay_amount'    => $_POST['total_amount'],    //支付金额
+                    'pay_time'      => strtotime($_POST['gmt_payment']), //支付时间
+                    'plat_oid'      => $_POST['trade_no'],      //支付宝订单号
+                    'plat'          => 1,      //平台编号 1支付宝 2微信
+                ];
+
+                CmsOrder::where(['order_number'=>$oid])->update($info);
+            }
             //处理订单逻辑
             $this->dealOrder($_POST);
 
@@ -233,6 +248,20 @@
             $params['sign_type'] = null;
             $params['sign'] = null;
             return $this->verify($this->getSignContent($params), $sign, $rsaPublicKeyFilePath,$signType);
+        }
+        public function dealOrder($_POST){
+            print_r($_POST);
+        /*$res=CmsOrder::where(['order_number'=>$order_number])->update(['pay_time'=>time(),'pay_amount'=>rand(1111,9999),'is_pay'=>1]);
+		if($res){
+			echo '支付成功';
+			$pay_amount=CmsOrder::where(['order_number'=>$order_number])->value('pay_amount');
+			$integral=$pay_amount*100;
+			$old_integral=CmsShop::where('id',$this->uid)->value('integral');
+			$new_integral=$integral+$old_integral;
+			CmsShop::where('id',$this->uid)->update(['integral'=>$new_integral]);
+		}else{
+			echo '支付失败';
+		}*/
         }
     }
 ?>
