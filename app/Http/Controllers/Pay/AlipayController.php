@@ -11,6 +11,8 @@
         public $gate_way;
         public $notify_url;
         public $rsaPrivateKeyFilePath;
+        public $return_url;
+        public $alipay_gongyao;
 
         public function __construct()
         {
@@ -18,6 +20,8 @@
             $this->gate_way=env('ALIPAY_GATE_WAY');
             $this->notify_url=env('ALIPAY_NOTIFY_URL');
             $this->rsaPrivateKeyFilePath=env('ALIPAY_RSA_Private_Key_File_Path');
+            $this->return_url = env('ALIPAY_RETURN_URL');
+            $this->alipay_gongyao = env('ALIPAY_GONGYAO');
         }
 
         /*
@@ -57,6 +61,7 @@
                 'timestamp'   => date('Y-m-d H:i:s'),
                 'version'   => '1.0',
                 'notify_url'   => $this->notify_url,
+                'return_url'   => $this->return_url,
                 'biz_content'   => json_encode($bizcont),
             ];
 
@@ -143,6 +148,83 @@
 
 
             return $data;
+        }
+        /**
+         * 支付宝同步通知回调
+         */
+        public function aliReturn()
+        {
+            echo '<pre>';print_r($_GET);echo '</pre>';
+            //验签 支付宝的公钥
+            if(!$this->verify($_GET)){
+                echo 'error';
+            }else{
+                echo '支付成功，正在跳转';
+                header('refresh:2;url=/orderlist');
+            }
+
+            //处理订单逻辑
+            //$this->dealOrder($_GET);
+        }
+
+        /**
+         * 支付宝异步通知
+         */
+        public function aliNotify()
+        {
+            $data = json_encode($_POST);
+            $log_str = '>>>> '.date('Y-m-d H:i:s') . $data . "<<<<\n\n";
+            //记录日志
+            file_put_contents('logs/alipay.log',$log_str,FILE_APPEND);
+            //验签
+            $res = $this->verify($_POST);
+
+            $log_str = '>>>> ' . date('Y-m-d H:i:s');
+            if($res === false){
+                //记录日志 验签失败
+                $log_str .= " Sign Failed!<<<<< \n\n";
+                file_put_contents('logs/alipay.log',$log_str,FILE_APPEND);
+            }else{
+                $log_str .= " Sign OK!<<<<< \n\n";
+                file_put_contents('logs/alipay.log',$log_str,FILE_APPEND);
+            }
+
+            //处理订单逻辑
+            $this->dealOrder($_POST);
+
+            echo 'success';
+        }
+
+
+        //验签
+        function verify($params) {
+            $sign = $params['sign'];
+            $params['sign_type'] = null;
+            $params['sign'] = null;
+
+            //读取公钥文件
+            $pubKey = file_get_contents($this->alipay_gongyao);
+            $pubKey = "-----BEGIN PUBLIC KEY-----\n" .
+                wordwrap($pubKey, 64, "\n", true) .
+                "\n-----END PUBLIC KEY-----";
+            //转换为openssl格式密钥
+
+            $res = openssl_get_publickey($pubKey);
+            ($res) or die('支付宝RSA公钥错误。请检查公钥文件格式是否正确');
+
+            //调用openssl内置方法验签，返回bool值
+
+            $result = (openssl_verify($this->getSignContent($params), base64_decode($sign), $res, OPENSSL_ALGO_SHA256)===1);
+            openssl_free_key($res);
+
+            return $result;
+        }
+
+        protected function rsaCheckV1($params, $rsaPublicKeyFilePath,$signType='RSA') {
+            $sign = $params['sign'];
+            $params['sign_type'] = null;
+            $params['sign'] = null;
+            return $this->verify($this->getSignContent($params), $sign, $rsaPublicKeyFilePath,$signType);
         }
     }
 ?>
