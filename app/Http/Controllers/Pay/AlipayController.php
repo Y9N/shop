@@ -3,6 +3,7 @@
 
     use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
+    use App\Model\CmsOrder;
 
     use GuzzleHttp\Client;
     class AlipayController extends Controller{
@@ -41,17 +42,24 @@
             echo $response->getBody();
         }
 
-        public function test()
+        public function pay($order_number)
         {
-
+            $order_num=base64_decode($order_number);
+            $order_info = CmsOrder::where(['order_number'=>$order_num])->where('uid',session()->get('u_id'))->first();
+            if(!$order_info){
+                die("订单 ".$order_num. "不存在！");
+            }
+            if($order_info->pay_time > 0){
+                die("此订单已被支付，无法再次支付");
+            }
             $bizcont = [
-                'subject'           => 'ancsd'. mt_rand(1111,9999).str_random(6),
-                'out_trade_no'      => 'oid'.date('YmdHis').mt_rand(1111,2222),
-                'total_amount'      => 0.05,
+                'subject'           => 'ceshi:'.$order_info['order_number'],
+                'out_trade_no'      => $order_info['order_number'],
+                'total_amount'      => $order_info['order_amount'],
                 'product_code'      => 'QUICK_WAP_WAY',
 
             ];
-
+            //print_r($bizcont);die;
             $data = [
                 'app_id'   => $this->app_id,
                 'method'   => 'alipay.trade.wap.pay',
@@ -64,13 +72,13 @@
                 'return_url'   => $this->return_url,
                 'biz_content'   => json_encode($bizcont),
             ];
-
             $sign = $this->rsaSign($data);
             $data['sign'] = $sign;
             $param_str = '?';
             foreach($data as $k=>$v){
                 $param_str .= $k.'='.urlencode($v) . '&';
             }
+            //print_r($param_str);die;
             $url = rtrim($param_str,'&');
             $url = $this->gate_way . $url;
             header("Location:".$url);

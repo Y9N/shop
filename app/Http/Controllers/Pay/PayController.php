@@ -32,15 +32,15 @@ class PayController extends Controller
 	 */
 	public function orderpay($order_number)
 	{
-		$order_number=base64_decode($order_number);
-		$order_info = CmsOrder::where(['order_number'=>$order_number])->where('uid',$this->uid)->first();
+		$order_num=base64_decode($order_number);
+		$order_info = CmsOrder::where(['order_number'=>$order_num])->where('uid',$this->uid)->first();
 		if(!$order_info){
-			die("订单 ".$order_number. "不存在！");
+			die("订单 ".$order_num. "不存在！");
 		}
 		if($order_info->pay_time > 0){
 			die("此订单已被支付，无法再次支付");
 		}
-		header('refresh:0;url=/pay/alipay/test');
+		header("refresh:0;url=/pay/alipay/test/$order_number");
 		/*$res=CmsOrder::where(['order_number'=>$order_number])->update(['pay_time'=>time(),'pay_amount'=>rand(1111,9999),'is_pay'=>1]);
 		if($res){
 			echo '支付成功';
