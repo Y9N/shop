@@ -47,7 +47,7 @@
             $bizcont = [
                 'subject'           => 'ancsd'. mt_rand(1111,9999).str_random(6),
                 'out_trade_no'      => 'oid'.date('YmdHis').mt_rand(1111,2222),
-                'total_amount'      => 0.01,
+                'total_amount'      => 0.05,
                 'product_code'      => 'QUICK_WAP_WAY',
 
             ];
