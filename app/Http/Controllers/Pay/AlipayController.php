@@ -249,6 +249,7 @@
             $params['sign'] = null;
             return $this->verify($this->getSignContent($params), $sign, $rsaPublicKeyFilePath,$signType);
         }
+
 /*        public function dealOrder($_POST){
             print_r($_POST);
         $res=CmsOrder::where(['order_number'=>$order_number])->update(['pay_time'=>time(),'pay_amount'=>rand(1111,9999),'is_pay'=>1]);

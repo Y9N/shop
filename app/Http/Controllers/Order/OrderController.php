@@ -87,4 +87,18 @@ class OrderController extends Controller
 			}
 		}
 	}
+
+
+
+	public function ordertDel(){
+		$data=CmsOrder::get()->toArray();
+		foreach($data as $k=>$v){
+			if($v['is_pay']==2){
+				if(time()-$v['add_time']>30){
+					CmsOrder::where(['order_id'=>$v['order_id']])->update(['is_del'=>2]);
+				}
+			}
+		}
+		echo date('Y-m-d H:i:s')."执行delOrder\n\n";
+	}
 }
