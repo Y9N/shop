@@ -9,4 +9,5 @@ class CmsGoods extends Model
     //
 	public $table = 'cms_goods';
 	public $timestamps = false;
+	public $primaryKey = 'goods_id';
 }
