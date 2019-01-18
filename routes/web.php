@@ -93,3 +93,6 @@ Route::post('/pay/alipay/notify','Pay\AlipayController@aliNotify');        //支
 Route::get('/pay/alipay/return','Pay\AlipayController@aliReturn');        //支付宝支付 同步通知回调
 /*删除过期订单*/
 Route::get('/pay/alipay/ordertDel','Pay\AlipayController@ordertDel');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

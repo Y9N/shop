@@ -125,7 +125,7 @@ class GoodsController extends Controller
         $form->datetime('addtime', 'Addtime')->default(date('Y-m-d H:i:s'));
         $form->number('goods_price', 'Goods price');
         $form->number('upd_time', 'Upd time');
-
+        $form->ckeditor('content');
         return $form;
     }
 }

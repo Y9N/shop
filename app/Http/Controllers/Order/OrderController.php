@@ -19,6 +19,7 @@ class OrderController extends Controller
 			$this->uid=session()->get('u_id');
 			return $next($request);
 		});
+		$this->middleware('auth');
 	}
 	/*
 	 * 生成订单号
