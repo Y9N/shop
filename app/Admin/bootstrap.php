@@ -1,5 +1,8 @@
 <?php
+use App\Admin\Extensions\Form\CKEditor;
+use Encore\Admin\Form;
 
+Form::extend('ckeditor', CKEditor::class);
 /**
  * Laravel-admin - admin builder based on Laravel.
  * @author z-song <https://github.com/z-song>
@@ -17,8 +20,4 @@
  * Admin::js('/packages/prettydocs/js/main.js');
  *
  */
-use App\Admin\Extensions\Form\CKEditor;
-use Encore\Admin\Form;
-
-Form::extend('ckeditor', CKEditor::class);
 Encore\Admin\Form::forget(['map', 'editor']);
