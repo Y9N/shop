@@ -3,8 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Redis;
 
-class CheckUid
+class clickLog
 {
     /**
      * Handle an incoming request.
@@ -15,10 +16,8 @@ class CheckUid
      */
     public function handle($request, Closure $next)
     {
-        if(empty($_COOKIE['uid'])){
-            header('Refresh:2;url=/user/login');
-            echo 'No UID ，请先登录';echo '</br>';
-        }
+        Redis::incr('click1');      //增加点击
+        Redis::incrby('click2',10);      //增加点击
         return $next($request);
     }
 }

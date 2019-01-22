@@ -96,3 +96,7 @@ Route::get('/pay/alipay/ordertDel','Pay\AlipayController@ordertDel');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+/*上传文件*/
+Route::get('/upload','Goods\GoodsController@uploadPDF');
+Route::post('/PDF','Goods\GoodsController@PDF');
