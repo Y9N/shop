@@ -81,14 +81,20 @@ class GoodsController extends Controller
     protected function grid()
     {
         $grid = new Grid(new CmsGoods);
-
+        $grid->expandFilter();
+        $grid->filter(function($filter){
+            // 去掉默认的id过滤器
+            //$filter->disableIdFilter();
+            // 在这里添加字段过滤器
+            $filter->like('goods_name', 'goods_name');
+        });
         $grid->goods_id('Goods id');
         $grid->goods_name('Goods name');
         $grid->score('Score');
         $grid->addtime('Addtime');
         $grid->goods_price('Goods price');
         $grid->upd_time('Upd time');
-
+        $grid->paginate(5);
         return $grid;
     }
 
@@ -120,7 +126,6 @@ class GoodsController extends Controller
     protected function form()
     {
         $form = new Form(new CmsGoods);
-
         $form->text('goods_name', 'Goods name');
         $form->number('score', 'Score');
         $form->datetime('addtime', 'Addtime')->default(date('Y-m-d H:i:s'));

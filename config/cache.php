@@ -90,5 +90,9 @@ return [
         'CACHE_PREFIX',
         str_slug(env('APP_NAME', 'laravel'), '_').'_cache'
     ),
+    'redis' => [
+        'driver' => 'redis',
+        'connection' => 'default',
+    ],
 
 ];
