@@ -13,12 +13,12 @@ class WeixinController extends Controller
 
     protected $redis_weixin_access_token = 'str:weixin_access_token';     //微信 access_token
 
-    public function test()
+/*    public function test()
     {
         //echo __METHOD__;
         //$this->getWXAccessToken();
         $this->getUserInfo(1);
-    }
+    }*/
 
     /**
      * 首次接入
@@ -37,6 +37,11 @@ class WeixinController extends Controller
     public function wxEvent()
     {
         $data = file_get_contents("php://input");
+
+
+        var_dump($data);
+
+
         $log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
         file_put_contents('logs/wx_event.log',$log_str,FILE_APPEND);
     }
