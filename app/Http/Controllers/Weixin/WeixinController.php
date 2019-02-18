@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Weixin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Model\WeixinUser;
 
 use Illuminate\Support\Facades\Redis;
 
@@ -55,7 +56,7 @@ class WeixinController extends Controller
             //获取用户信息
             $user_info = $this->getUserInfo($openid);
             echo '<pre>';print_r($user_info);echo '</pre>';
-            /*//保存用户信息
+            //保存用户信息
             $u = WeixinUser::where(['openid'=>$openid])->first();
             //var_dump($u);die;
             if($u){       //用户不存在
@@ -72,7 +73,7 @@ class WeixinController extends Controller
 
                 $id = WeixinUser::insertGetId($user_data);      //保存用户信息
                 var_dump($id);
-            }*/
+            }
         }
 
 
