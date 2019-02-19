@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Weixin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\WeixinUser;
-
+use GuzzleHttp;
 use Illuminate\Support\Facades\Redis;
 
 class WeixinController extends Controller
@@ -139,6 +139,19 @@ class WeixinController extends Controller
        // echo __METHOD__;
         // 1 获取access_token 拼接请求接口
         $url = 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token='.$this->getWXAccessToken();
-        echo $url;
+        $client = new GuzzleHttp\Client(['base_uri' => $url]);
+        $data = [
+            "button"    => [
+                [
+                    "type"  => "view",      // view类型 跳转指定 URL
+                    "name"  => "yuanchao",
+                    "url"   => "https://www.baidu.com"
+                ]
+            ]
+        ];
+        $r = $client->request('POST', $url, [
+            'body' => json_encode($data)
+        ]);
+        var_dump($r);
     }
 }
