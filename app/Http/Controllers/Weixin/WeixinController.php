@@ -74,7 +74,7 @@ class WeixinController extends Controller
                 $id = WeixinUser::insertGetId($user_data);      //保存用户信息
                 var_dump($id);
             }
-        }elseif($event=='CLICK'){
+        }elseif($event=='CLICK'){               //click 菜单
             if($xml->EventKey=='kefu01'){
                 $this->kefu01($openid,$xml->ToUserName);
             }
@@ -89,7 +89,7 @@ class WeixinController extends Controller
     public function kefu01($openid,$from)
     {
         //文本消息
-        $xml_response ='<xml> <ToUserName>< ![CDATA[toUser] ]></ToUserName> <FromUserName>< ![CDATA[fromUser] ]></FromUserName> <CreateTime>'.time().'</CreateTime> <MsgType>< ![CDATA[text] ]></MsgType> <Content>< ![CDATA[你好] ]></Content> </xml>';
+        $xml_response = '<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$from.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. 'Hello World, 现在时间'. date('Y-m-d H:i:s') .']]></Content></xml>';
         echo $xml_response;
     }
 
