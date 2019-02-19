@@ -38,10 +38,8 @@ class WeixinController extends Controller
     public function wxEvent()
     {
         $data = file_get_contents("php://input");
-
         //解析XML
         $xml = simplexml_load_string($data);        //将 xml字符串 转换成对象
-
         $event = $xml->Event;                       //事件类型
         $openid = $xml->FromUserName;               //用户openid
 
@@ -67,10 +65,6 @@ class WeixinController extends Controller
             }
             exit;
         }
-
-
-
-
 
         if($event=='subscribe'){
 
@@ -171,6 +165,42 @@ class WeixinController extends Controller
         //echo '<pre>';print_r($data);echo '</pre>';
         return $data;
     }
+
+
+
+
+    /**
+     * 下载图片素材
+     * @param $media_id
+     */
+    public function dlWxImg($media_id)
+    {
+        $url = 'https://api.weixin.qq.com/cgi-bin/media/get?access_token='.$this->getWXAccessToken().'&media_id='.$media_id;
+        echo $url;echo '</br>';die;
+
+        //保存图片
+        $client = new GuzzleHttp\Client();
+        $response = $client->get($url);
+        //$h = $response->getHeaders();
+
+        //获取文件名
+        $file_info = $response->getHeader('Content-disposition');
+        $file_name = substr(rtrim($file_info[0],'"'),-20);
+
+        $wx_image_path = 'wx/images/'.$file_name;
+        //保存图片
+        $r = Storage::disk('local')->put($wx_image_path,$response->getBody());
+        if($r){     //保存成功
+
+        }else{      //保存失败
+
+        }
+
+    }
+
+
+
+
     /*创建服务号菜单*/
     public function createMenu()
     {
