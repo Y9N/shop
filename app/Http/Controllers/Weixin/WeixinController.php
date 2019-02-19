@@ -45,6 +45,20 @@ class WeixinController extends Controller
         $event = $xml->Event;                       //事件类型
         $openid = $xml->FromUserName;               //用户openid
 
+        /*处理用户发送的请求*/
+        if(issent($xml->MsgType)){
+            if($xml->MsgType=='text'){
+                $msg=$xml->Content;
+                $xml_response='<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. $msg. date('Y-m-d H:i:s') .']]></Content></xml>';
+                echo $xml_response;
+                exit();
+            }
+        }
+
+
+
+
+
         if($event=='subscribe'){
 
             $sub_time = $xml->CreateTime;//扫码关注时间
@@ -89,7 +103,7 @@ class WeixinController extends Controller
     public function kefu01($openid,$from)
     {
         //文本消息
-        //$xml_response='<xml><ToUserName>< ![CDATA[toUser] ]></ToUserName><FromUserName>< ![CDATA[fromUser] ]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType>< ![CDATA[image] ]></MsgType><Image><MediaId>< ![CDATA[media_id] ]></MediaId></Image></xml>';
+        //$xml_response='<xml><ToUserName>< ![CDATA['.$openid.'] ]></ToUserName><FromUserName>< ![CDATA['.$from.'] ]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType>< ![CDATA[image] ]></MsgType><Image><MediaId>< ![CDATA[media_id] ]></MediaId></Image></xml>';
         $xml_response = '<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$from.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. '您好,请问有什么需要帮助的吗？如需服务请回复：1，联系官方人员：请拨打110！谢谢合作！'. date('Y-m-d H:i:s') .']]></Content></xml>';
         echo $xml_response;
     }
