@@ -140,7 +140,21 @@ class WeixinController extends Controller
         // 1 获取access_token 拼接请求接口
         $url = 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token='.$this->getWXAccessToken();
         $client = new GuzzleHttp\Client(['base_uri' => $url]);
-        $data = [
+        $data=[
+            "button"=>[
+                [
+                    "name"=>"❤小可爱❤",
+                    "sub_button"=>[
+                        [
+                            "type"  => "view",      // view类型 跳转指定 URL
+                            "name"  => "❤小可爱❤",
+                            "url"   => "https://www.baidu.com"
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        /*$data = [
             "button"    => [
                 [
                     "type"  => "view",      // view类型 跳转指定 URL
@@ -158,7 +172,7 @@ class WeixinController extends Controller
                     "url"   => "https://qzone.qq.com/"
                 ]
             ]
-        ];
+        ];*/
         $r = $client->request('POST', $url, [
             'body' => json_encode($data,JSON_UNESCAPED_UNICODE)
         ]);
