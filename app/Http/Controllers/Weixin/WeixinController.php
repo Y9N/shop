@@ -144,7 +144,21 @@ class WeixinController extends Controller
             "button"    => [
                 [
                     "type"  => "view",      // view类型 跳转指定 URL
-                    "name"  => "yuanchao",
+                    "name"  => "❤❤小可爱❤❤",
+                    "url"   => "https://www.baidu.com"
+                ]
+            ],
+            "button"    => [
+                [
+                    "type"  => "view",      // view类型 跳转指定 URL
+                    "name"  => "❤❤宝宝❤❤",
+                    "url"   => "https://www.baidu.com"
+                ]
+            ],
+            "button"    => [
+                [
+                    "type"  => "view",      // view类型 跳转指定 URL
+                    "name"  => "❤❤爱你呦❤❤",
                     "url"   => "https://www.baidu.com"
                 ]
             ]
@@ -152,6 +166,15 @@ class WeixinController extends Controller
         $r = $client->request('POST', $url, [
             'body' => json_encode($data)
         ]);
-        var_dump($r);
+
+        // 3 解析微信接口返回信息
+        $response_arr = json_decode($r->getBody(),true);
+        //echo '<pre>';print_r($response_arr);echo '</pre>';
+        if($response_arr['errcode'] == 0){
+            echo "菜单创建成功";
+        }else{
+            echo "菜单创建失败，请重试";echo '</br>';
+            echo $response_arr['errmsg'];
+        }
     }
 }
