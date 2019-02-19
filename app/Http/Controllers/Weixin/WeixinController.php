@@ -43,11 +43,11 @@ class WeixinController extends Controller
         $xml = simplexml_load_string($data);        //将 xml字符串 转换成对象
 
         $event = $xml->Event;                       //事件类型
-        //var_dump($xml);echo '<hr>';
+        $openid = $xml->FromUserName;               //用户openid
 
         if($event=='subscribe'){
-            $openid = $xml->FromUserName;               //用户openid
-            $sub_time = $xml->CreateTime;               //扫码关注时间
+
+            $sub_time = $xml->CreateTime;//扫码关注时间
 
 
             echo 'openid: '.$openid;echo '</br>';
@@ -74,14 +74,24 @@ class WeixinController extends Controller
                 $id = WeixinUser::insertGetId($user_data);      //保存用户信息
                 var_dump($id);
             }
+        }elseif($event=='CLICK'){
+            if($xml->EventKey=='kefu01'){
+                $this->kefu01($openid,$xml->ToUserName);
+            }
         }
-
 
         $log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
         file_put_contents('logs/wx_event.log',$log_str,FILE_APPEND);
     }
-
-
+/*
+ * 客服处理
+ * */
+    public function kefu01($openid,$from)
+    {
+        //文本消息
+        $xml_response ='<xml> <ToUserName>< ![CDATA[toUser] ]></ToUserName> <FromUserName>< ![CDATA[fromUser] ]></FromUserName> <CreateTime>'.time().'</CreateTime> <MsgType>< ![CDATA[text] ]></MsgType> <Content>< ![CDATA[你好] ]></Content> </xml>';
+        echo $xml_response;
+    }
 
 
     /**
@@ -174,25 +184,6 @@ class WeixinController extends Controller
                 ]
             ]
         ];
-        /*$data = [
-            "button"    => [
-                [
-                    "type"  => "view",      // view类型 跳转指定 URL
-                    "name"  => "❤小可爱❤",
-                    "url"   => "https://www.baidu.com"
-                ],
-                [
-                    "type"  => "view",      // view类型 跳转指定 URL
-                    "name"  => "商城首页",
-                    "url"   => "http://188.131.185.180/shop/public/index.php"
-                ],
-                [
-                    "type"  => "view",      // view类型 跳转指定 URL
-                    "name"  => "随便买☺",
-                    "url"   => "https://qzone.qq.com/"
-                ]
-            ]
-        ];*/
         $r = $client->request('POST', $url, [
             'body' => json_encode($data,JSON_UNESCAPED_UNICODE)
         ]);
