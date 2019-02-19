@@ -49,6 +49,9 @@ class WeixinController extends Controller
         if(isset($xml->MsgType)){
             if($xml->MsgType=='text'){
                 $msg=$xml->Content;
+                if(substr_count($msg,'男')||substr_count($msg,'女')){
+                    $msg='对你来说，我应该是你的异性';
+                }
                 $xml_response = '<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. $msg. date('Y-m-d H:i:s') .']]></Content></xml>';
                 echo $xml_response;
                 exit();
