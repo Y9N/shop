@@ -62,7 +62,7 @@ class WeixinController extends Controller
             if($xml->MsgType=='image'){
                 $msg=$xml->PicUrl;
                 $MediaId=$xml->MediaId;
-                $xml_response = '<xml><ToUserName>< ![CDATA['.$openid.'] ]></ToUserName><FromUserName>< ![CDATA['.$xml->ToUserName.'] ]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType>< ![CDATA[image] ]></MsgType><Image><MediaId>< ![CDATA['.$MediaId.']]></MediaId></Image></xml>';
+                $xml_response = '<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. $MediaId. date('Y-m-d H:i:s') .']]></Content></xml>';
                 echo $xml_response;
                 exit();
             }
