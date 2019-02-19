@@ -178,9 +178,9 @@ class WeixinController extends Controller
                     "url"   => "http://188.131.185.180/shop/public/index.php"
                 ],
                 [
-                    "type"  => "view",      // view类型 跳转指定 URL
-                    "name"  => "随便买☺",
-                    "url"   => "https://qzone.qq.com/"
+                    "type"  => "click",      // view类型 跳转指定 URL随便买☺"url"   => "https://qzone.qq.com/"
+                    "name"  => "人工服务",
+                    "key"=>"kefu01"
                 ]
             ]
         ];
