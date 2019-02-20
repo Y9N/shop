@@ -62,7 +62,7 @@ class WeixinController extends Controller
                     echo $xml_response;
                 }
             }elseif($xml->MsgType=='voice'){
-                if(1){  //下载图片素材
+                if(1){  //下载语音文件
                     $this->dlVoice($xml->MediaId);
                     $xml_response = '<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['.'收听成功'.date('Y-m-d H:i:s') .']]></Content></xml>';
                     echo $xml_response;
