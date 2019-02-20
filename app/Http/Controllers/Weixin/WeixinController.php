@@ -193,7 +193,7 @@ class WeixinController extends Controller
         $r = Storage::disk('local')->put($wx_image_path,$response->getBody());
         if($r){            //保存成功
 
-        }else{             //保存失败
+        }else{                //保存失败
 
         }
 
