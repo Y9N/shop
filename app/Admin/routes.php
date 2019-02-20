@@ -13,6 +13,7 @@ Route::group([
     $router->get('/', 'HomeController@index');
     $router->resource('/goods',GoodsController::class);
     $router->resource('/weixin',WeixinController::class);
+    $router->resource('/wxmedia',WeixinMediaController::class); //微信素材管理
 
 
 });

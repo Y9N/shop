@@ -51,9 +51,21 @@ class WeixinController extends Controller
             }elseif($xml->MsgType=='image'){
                 //视业务需求是否需要下载保存图片
                 if(1){  //下载图片素材
-                    $this->dlWxImg($xml->MediaId);
+                    $file_name = $this->dlWxImg($xml->MediaId);
                     $xml_response = '<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['.'上传成功'.date('Y-m-d H:i:s') .']]></Content></xml>';
                     echo $xml_response;
+                    $data = [
+                        'openid'    => $openid,
+                        'add_time'  => time(),
+                        'msg_type'  => 'image',
+                        'media_id'  => $xml->MediaId,
+                        'format'    => $xml->Format,
+                        'msg_id'    => $xml->MsgId,
+                        'local_file_name'   => $file_name
+                    ];
+
+                    $m_id = WeixinMedia::insertGetId($data);
+                    var_dump($m_id);
                 }
             }elseif($xml->MsgType=='voice'){
                 if(1){  //下载语音文件
@@ -176,6 +188,7 @@ class WeixinController extends Controller
         }else{                //保存失败
 
         }
+        return $file_name;
 
     }
     /*下载语音*/
@@ -256,7 +269,7 @@ class WeixinController extends Controller
                 ],
                 [
                     "type"  => "click",      // view类型 跳转指定 URL随便买☺"url"   => "https://qzone.qq.com/"
-                    "name"  => "原朝是傻子",
+                    "name"  => "联系客服",
                     "key"=>"kefu01"
                 ]
             ]
