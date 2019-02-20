@@ -15,12 +15,10 @@ class WeixinController extends Controller
 
     protected $redis_weixin_access_token = 'str:weixin_access_token';     //微信 access_token
 
-/*    public function test()
+    public function test()
     {
-        //echo __METHOD__;
-        //$this->getWXAccessToken();
-        $this->getUserInfo(1);
-    }*/
+        echo 'Token: '. $this->getWXAccessToken();
+    }
 
     /**
      * 首次接入
@@ -63,40 +61,42 @@ class WeixinController extends Controller
                     $xml_response = '<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['.'上传成功'.date('Y-m-d H:i:s') .']]></Content></xml>';
                     echo $xml_response;
                 }
+            }elseif($xml->MsgType=='voice'){
+                $this->dlVoice($xml->MediaId);
+            }elseif($xml->MsgType=='event'){
+                //保存用户数据
+                if($event=='subscribe'){
+                    $sub_time = $xml->CreateTime;//扫码关注时间
+                    echo 'openid: '.$openid;echo '</br>';
+                    echo '$sub_time: ' . $sub_time;
+                    //获取用户信息
+                    $user_info = $this->getUserInfo($openid);
+                    echo '<pre>';print_r($user_info);echo '</pre>';
+                    //保存用户信息
+                    $u = WeixinUser::where(['openid'=>$openid])->first();
+                    //var_dump($u);die;
+                    if($u){       //用户不存在
+                        echo '用户已存在';
+                    }else{
+                        $user_data = [
+                            'openid'            => $openid,
+                            'add_time'          => time(),
+                            'nickname'          => $user_info['nickname'],
+                            'sex'               => $user_info['sex'],
+                            'headimgurl'        => $user_info['headimgurl'],
+                            'subscribe_time'    => $sub_time,
+                        ];
+
+                        $id = WeixinUser::insertGetId($user_data);      //保存用户信息
+                        var_dump($id);
+                    }
+                }elseif($event=='CLICK'){               //click 菜单
+                    if($xml->EventKey=='kefu01'){
+                        $this->kefu01($openid,$xml->ToUserName);
+                    }
+                }
             }
         }
-        //保存用户数据
-        if($event=='subscribe'){
-            $sub_time = $xml->CreateTime;//扫码关注时间
-            echo 'openid: '.$openid;echo '</br>';
-            echo '$sub_time: ' . $sub_time;
-            //获取用户信息
-            $user_info = $this->getUserInfo($openid);
-            echo '<pre>';print_r($user_info);echo '</pre>';
-            //保存用户信息
-            $u = WeixinUser::where(['openid'=>$openid])->first();
-            //var_dump($u);die;
-            if($u){       //用户不存在
-                echo '用户已存在';
-            }else{
-                $user_data = [
-                    'openid'            => $openid,
-                    'add_time'          => time(),
-                    'nickname'          => $user_info['nickname'],
-                    'sex'               => $user_info['sex'],
-                    'headimgurl'        => $user_info['headimgurl'],
-                    'subscribe_time'    => $sub_time,
-                ];
-
-                $id = WeixinUser::insertGetId($user_data);      //保存用户信息
-                var_dump($id);
-            }
-        }elseif($event=='CLICK'){               //click 菜单
-            if($xml->EventKey=='kefu01'){
-                $this->kefu01($openid,$xml->ToUserName);
-            }
-        }
-
         $log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
         file_put_contents('logs/wx_event.log',$log_str,FILE_APPEND);
     }
@@ -195,7 +195,10 @@ class WeixinController extends Controller
     }
 
 
+/*下载语音*/
+    public function dlVoice($media_id){
 
+    }
 
     /*创建服务号菜单*/
     public function createMenu()
@@ -233,7 +236,7 @@ class WeixinController extends Controller
                 ],
                 [
                     "type"  => "click",      // view类型 跳转指定 URL随便买☺"url"   => "https://qzone.qq.com/"
-                    "name"  => "人工服务",
+                    "name"  => "原朝是傻子",
                     "key"=>"kefu01"
                 ]
             ]
