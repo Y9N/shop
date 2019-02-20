@@ -64,17 +64,12 @@ class WeixinController extends Controller
                     echo $xml_response;
                 }
             }
-            exit;
         }
-
+        //保存用户数据
         if($event=='subscribe'){
-
             $sub_time = $xml->CreateTime;//扫码关注时间
-
-
             echo 'openid: '.$openid;echo '</br>';
             echo '$sub_time: ' . $sub_time;
-
             //获取用户信息
             $user_info = $this->getUserInfo($openid);
             echo '<pre>';print_r($user_info);echo '</pre>';
