@@ -112,4 +112,5 @@ Route::post('/weixin/valid1','Weixin\WeixinController@wxEvent');        //接收
 Route::post('/weixin/valid','Weixin\WeixinController@validToken');
 Route::get('/weixin/createMenu','Weixin\WeixinController@createMenu'); ///创建服务号菜单
 Route::get('/weixin/refreshToken','Weixin\WeixinController@refreshToken'); ///创建服务号菜单
+Route::post('/weixin/autosend','Weixin\WeixinController@autosend'); ///创建服务号菜单
 

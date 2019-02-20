@@ -11,15 +11,11 @@ use Illuminate\Support\Facades\Storage;
 
 class WeixinController extends Controller
 {
-    //
-
     protected $redis_weixin_access_token = 'str:weixin_access_token';     //微信 access_token
-
     public function test()
     {
         echo 'Token: '. $this->getWXAccessToken();
     }
-
     /**
      * 首次接入
      */
@@ -30,7 +26,6 @@ class WeixinController extends Controller
         //file_put_contents('logs/weixin.log',$str,FILE_APPEND);
         echo $_GET['echostr'];
     }
-
     /**
      * 接收微信服务器事件推送
      */
@@ -41,7 +36,6 @@ class WeixinController extends Controller
         $xml = simplexml_load_string($data);        //将 xml字符串 转换成对象
         $event = $xml->Event;                       //事件类型
         $openid = $xml->FromUserName;               //用户openid
-
         /*处理用户发送的请求*/
         if(isset($xml->MsgType)){
             if($xml->MsgType=='text'){
@@ -110,28 +104,15 @@ class WeixinController extends Controller
         $log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
         file_put_contents('logs/wx_event.log',$log_str,FILE_APPEND);
     }
-/*
- * 客服处理
- * */
+    /*
+     * 客服处理
+     * */
     public function kefu01($openid,$from)
     {
         //文本消息
         //$xml_response='<xml><ToUserName>< ![CDATA['.$openid.'] ]></ToUserName><FromUserName>< ![CDATA['.$from.'] ]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType>< ![CDATA[image] ]></MsgType><Image><MediaId>< ![CDATA[media_id] ]></MediaId></Image></xml>';
         $xml_response = '<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$from.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['. '您好,请问有什么需要帮助的吗？如需服务请回复：1，联系官方人员：请拨打110！谢谢合作！'. date('Y-m-d H:i:s') .']]></Content></xml>';
         echo $xml_response;
-    }
-    /**
-     * 接收事件推送
-     */
-    public function validToken()
-    {
-        //$get = json_encode($_GET);
-        //$str = '>>>>>' . date('Y-m-d H:i:s') .' '. $get . "<<<<<\n";
-        //file_put_contents('logs/weixin.log',$str,FILE_APPEND);
-        //echo $_GET['echostr'];
-        $data = file_get_contents("php://input");
-        $log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
-        file_put_contents('logs/wx_event.log',$log_str,FILE_APPEND);
     }
     /**
      * 获取微信AccessToken
@@ -299,5 +280,9 @@ class WeixinController extends Controller
     {
         Redis::del($this->redis_weixin_access_token);
         echo $this->getWXAccessToken();
+    }
+    /*群发*/
+    public function autosend(){
+        $url ='https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token='.$this->getWXAccessToken();
     }
 }
