@@ -96,7 +96,7 @@ class WeixinController extends Controller
                     $data = [
                         'openid'    => $openid,
                         'add_time'  => time(),
-                        'msg_type'  => 'voice',
+                        'msg_type'  => 'video',
                         'media_id'  => $xml->MediaId,
                         'format'    => $xml->Format,
                         'msg_id'    => $xml->MsgId,
