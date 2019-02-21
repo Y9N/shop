@@ -323,8 +323,4 @@ class WeixinController extends Controller
         Redis::del($this->redis_weixin_access_token);
         echo $this->getWXAccessToken();
     }
-    /*群发*/
-    public function autosend(){
-        $url ='https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token='.$this->getWXAccessToken();
-    }
 }
