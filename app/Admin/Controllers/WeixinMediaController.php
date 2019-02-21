@@ -13,6 +13,7 @@ use Encore\Admin\Show;
 use Illuminate\Http\Request;
 use GuzzleHttp;
 use Illuminate\Support\Facades\Redis;
+use App\Model\WxPmMedia;
 
 class WeixinMediaController extends Controller
 {
@@ -204,7 +205,6 @@ class WeixinMediaController extends Controller
 
     public function upMaterialTest($file_path)
     {
-        echo $file_path;
         $url = 'https://api.weixin.qq.com/cgi-bin/material/add_material?access_token='.$this->getWXAccessToken().'&type=image';
         $client = new GuzzleHttp\Client();
         $response = $client->request('POST',$url,[
@@ -220,8 +220,13 @@ class WeixinMediaController extends Controller
         echo $body;echo '<hr>';
         $d = json_decode($body,true);
         echo '<pre>';print_r($d);echo '</pre>';
-
-
+        $id = WxPmMedia::insertGetId($d);      //保存用户信息
+        var_dump($id);
+        if($id){
+            echo 'success';
+        }else{
+            echo 'fail';
+        }
     }
 
 }
