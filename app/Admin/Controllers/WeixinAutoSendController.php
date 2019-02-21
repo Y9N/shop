@@ -18,9 +18,25 @@ class WeixinAutoSendController extends Controller
     use HasResourceActions;
     protected $redis_weixin_access_token = 'str:weixin_access_token';     //微信 access_token
     /*视图层*/
-    public function index()
+    public function index(Content $content)
     {
-            return view('admin.autosend');
+        return $content
+            ->header('Index')
+            ->description('description')
+            ->body($this->form());
+
+            //return view('admin.autosend');
+    }
+    /**
+     * Make a form builder.
+     *
+     * @return Form
+     */
+    protected function form()
+    {
+        $form = new Form(new WeixinUser);
+        $form->textarea('text','群发内容');
+        return $form;
     }
     /**
      * 获取微信AccessToken
