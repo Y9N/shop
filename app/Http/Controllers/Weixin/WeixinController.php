@@ -90,9 +90,21 @@ class WeixinController extends Controller
                 }
             }elseif($xml->MsgType=='video'){
                 if(1){  //下载视频文件
-                    $this->dlVideo($xml->MediaId);
+                    $file_name=$this->dlVideo($xml->MediaId);
                     $xml_response = '<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['.'视频保存成功'.date('Y-m-d H:i:s') .']]></Content></xml>';
                     echo $xml_response;
+                    $data = [
+                        'openid'    => $openid,
+                        'add_time'  => time(),
+                        'msg_type'  => 'voice',
+                        'media_id'  => $xml->MediaId,
+                        'format'    => $xml->Format,
+                        'msg_id'    => $xml->MsgId,
+                        'local_file_name'   => $file_name
+                    ];
+
+                    $m_id = WeixinMedia::insertGetId($data);
+                    var_dump($m_id);
                 }
             }elseif($xml->MsgType=='event'){
                 //保存用户数据
@@ -246,6 +258,7 @@ class WeixinController extends Controller
         }else{      //保存失败
 
         }
+        return $file_name;
     }
     /*创建服务号菜单*/
     public function createMenu()
