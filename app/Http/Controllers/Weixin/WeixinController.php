@@ -72,9 +72,21 @@ class WeixinController extends Controller
                 }
             }elseif($xml->MsgType=='voice'){
                 if(1){  //下载语音文件
-                    $this->dlVoice($xml->MediaId);
+                    $file_name=$this->dlVoice($xml->MediaId);
                     $xml_response = '<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['.'语音收听成功'.date('Y-m-d H:i:s') .']]></Content></xml>';
                     echo $xml_response;
+                    $data = [
+                        'openid'    => $openid,
+                        'add_time'  => time(),
+                        'msg_type'  => 'voice',
+                        'media_id'  => $xml->MediaId,
+                        'format'    => $xml->Format,
+                        'msg_id'    => $xml->MsgId,
+                        'local_file_name'   => $file_name
+                    ];
+
+                    $m_id = WeixinMedia::insertGetId($data);
+                    var_dump($m_id);
                 }
             }elseif($xml->MsgType=='video'){
                 if(1){  //下载视频文件
@@ -212,6 +224,7 @@ class WeixinController extends Controller
         }else{      //保存失败
 
         }
+        return $file_name;
     }
     /*下载视频*/
     public function dlVideo($media_id){
