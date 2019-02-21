@@ -220,7 +220,8 @@ class WeixinMediaController extends Controller
         echo $body;echo '<hr>';
         $d = json_decode($body,true);
         echo '<pre>';print_r($d);echo '</pre>';
-        $id = WxPmMedia::insertGetId($d);      //保存用户信息
+        $d['add_time']=time();
+        $id = WxPmMedia::insertGetId($d);
         var_dump($id);
         if($id){
             echo 'success';
