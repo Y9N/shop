@@ -11,6 +11,7 @@ use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use Illuminate\Support\Facades\Redis;
 use GuzzleHttp;
+use Illuminate\Http\Request;
 
 class WeixinAutoSendController extends Controller
 {
@@ -41,9 +42,9 @@ class WeixinAutoSendController extends Controller
 
     }
     /*群发*/
-    public function autosend()
+    public function autosend(Request $request)
     {
-        $text=$_GET['text'];
+        $text=$request->input('text');
         $access_token = $this->getWXAccessToken();
         $url = 'https://api.weixin.qq.com/cgi-bin/message/mass/sendall?access_token='.$access_token;
         //var_dump($url);exit;
