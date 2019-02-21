@@ -167,11 +167,26 @@ class WeixinMediaController extends Controller
     /**
      * 永久素材视图层
      * */
-    public function sendMsgView()
+    public function sendMsgView(Content $content)
     {
+        /*return $content
+        ->header('Index')
+        ->description('description')
+        ->body($this->biaodan());*/
         return view('admin.sendmsg');
     }
-
+    /**
+     * Make a form builder.
+     *
+     * @return Form
+     */
+    protected function biaodan()
+    {
+        $form = new Form(new WxPmMedia());
+        //$form->text('aa', 'aa');
+        $form->file('media', '文件');
+        return $form;
+    }
     public function sendMsg(Request $request)
     {
 //        echo '<pre>';print_r($_POST);echo '</pre>';echo '<hr>';
