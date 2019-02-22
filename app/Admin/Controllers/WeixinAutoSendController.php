@@ -23,7 +23,7 @@ class WeixinAutoSendController extends Controller
         return $content
             ->header('Index')
             ->description('description')
-            ->body($this->form());
+            ->body(view('admin.autosend'));
 
             //return view('admin.autosend');
     }

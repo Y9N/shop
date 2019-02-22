@@ -169,11 +169,11 @@ class WeixinMediaController extends Controller
      * */
     public function sendMsgView(Content $content)
     {
-        /*return $content
+        return $content
         ->header('Index')
         ->description('description')
-        ->body($this->biaodan());*/
-        return view('admin.sendmsg');
+        ->body($this->biaodan());
+        //return view('admin.sendmsg');
     }
     /**
      * Make a form builder.
@@ -187,6 +187,7 @@ class WeixinMediaController extends Controller
         $form->file('media', '文件');
         return $form;
     }
+    /*接收文件*/
     public function sendMsg(Request $request)
     {
 //        echo '<pre>';print_r($_POST);echo '</pre>';echo '<hr>';
@@ -217,7 +218,7 @@ class WeixinMediaController extends Controller
 
 
     }
-
+    /*文件入库*/
     public function upMaterialTest($file_path)
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/material/add_material?access_token='.$this->getWXAccessToken().'&type=image';
