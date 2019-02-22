@@ -83,13 +83,11 @@ class WeixinPmController extends Controller
 
         $grid->id('Id');
         $grid->media_id('Media id');
-        $grid->url('Url')->display(function($url){
-            return '<img src='.$url.'>';
+        $grid->local_file_name('material')->display(function($local_file_name){
+            return '<img src="https://yc.qianqianya.xyz/form_test/'.$local_file_name.'">';
         });
-        $grid->add_time('Add time')->display(function($add_time){
-            return date('Y-m-d h:i:s',$add_time);
-        });
-
+        $grid->url('Url');
+        $grid->add_time('Add time');
         return $grid;
     }
 
@@ -107,6 +105,7 @@ class WeixinPmController extends Controller
         $show->media_id('Media id');
         $show->url('Url');
         $show->add_time('Add time');
+        $show->local_file_name('Local file name');
 
         return $show;
     }
@@ -123,6 +122,7 @@ class WeixinPmController extends Controller
         $form->text('media_id', 'Media id');
         $form->url('url', 'Url');
         $form->number('add_time', 'Add time');
+        $form->text('local_file_name', 'Local file name');
 
         return $form;
     }
