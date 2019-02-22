@@ -14,6 +14,7 @@ Route::group([
     $router->resource('/goods',GoodsController::class);
     $router->resource('/weixin',WeixinController::class);
     $router->resource('/wxmedia',WeixinMediaController::class); //微信素材管理
+    $router->resource('/weixinpm',WeixinPmController::class); //微信素材管理
 
 
     $router->get('/autosend','WeixinAutoSendController@index'); //微信群发消息
