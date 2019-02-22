@@ -89,7 +89,6 @@ class WeixinAutoSendController extends Controller
             echo "发送失败";
             echo '</br>';
             echo $response_arr['errmsg'];
-
         }
 
     }

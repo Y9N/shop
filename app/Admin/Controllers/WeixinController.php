@@ -10,10 +10,13 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Http\Request;
+use GuzzleHttp;
 
 class WeixinController extends Controller
 {
     use HasResourceActions;
+    protected $redis_weixin_access_token = 'str:weixin_access_token';     //微信 access_token
 
     /**
      * Index interface.
@@ -84,7 +87,9 @@ class WeixinController extends Controller
 
         $grid->id('Id');
         $grid->uid('Uid');
-        $grid->openid('Openid');
+        $grid->openid('Openid')->display(function($openid){
+            return '<a href="touser?openid='.$openid.'">'.$openid.'</a>';
+        });
         $grid->add_time('Add time');
         $grid->nickname('Nickname');
         $grid->sex('Sex');
@@ -92,7 +97,6 @@ class WeixinController extends Controller
             return '<img src='.$img_url.'>';
         });
         $grid->subscribe_time('Subscribe time');
-
         return $grid;
     }
 
@@ -198,5 +202,56 @@ class WeixinController extends Controller
     public function view()
     {
         return view('admin.autosend');
+    }
+    /*私聊视图层*/
+    public function touserview(Content $content)
+    {
+        $openid=$_GET['openid'];
+        $data=WeixinUser::where('openid',$openid)->first();
+        $name=$data['nickname'];
+        $head=$data['headimgurl'];
+        $arr=[
+            'openid'=>$openid,
+            'head'=>$head
+        ];
+        return $content
+            ->header('给'.$name.'发消息')
+            ->description('description')
+            ->body(view('admin.touser',$arr));
+    }
+    /*私聊*/
+    public function touser(Request $request)
+    {
+        $openid=$request->input('openid');
+        $text=$request->input('text');
+        $access_token = $this->getWXAccessToken();
+        $url = 'https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token='.$access_token;
+        //var_dump($url);exit;
+        $client = new GuzzleHttp\Client(['base_url' => $url]);
+        $param = [
+            "touser"=>$openid,
+            "msgtype"=>"text",
+            "text"=>[
+                "content"=>$text
+            ],
+        ];
+        ///var_dump($param);exit;
+        $r = $client->Request('POST', $url, [
+            'body' => json_encode($param, JSON_UNESCAPED_UNICODE)
+        ]);
+        //var_dump($r);exit;
+        $response_arr = json_decode($r->getBody(), true);
+        //echo '<pre>';
+        //print_r($response_arr);
+        // echo '</pre>';
+        if ($response_arr['errcode'] == 0) {
+            echo "发送成功";
+        } else {
+            echo "发送失败";
+            echo '</br>';
+            echo $response_arr['errmsg'];
+
+        }
+
     }
 }

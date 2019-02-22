@@ -22,4 +22,8 @@ Route::group([
 
     $router->get('/sendmsg','WeixinMediaController@sendMsgView'); //保存永久素材
     $router->post('/','WeixinMediaController@sendMsg'); //保存永久素材
+
+    $router->get('/touser','WeixinController@touserview'); //与用户联系
+    $router->post('/touser','WeixinController@touser'); //与用户联系
+
 });
