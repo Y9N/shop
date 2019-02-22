@@ -84,7 +84,7 @@ class WeixinPmController extends Controller
         $grid->id('Id');
         $grid->media_id('Media id');
         $grid->local_file_name('material')->display(function($local_file_name){
-            return '<img src="https://yc.qianqianya.xyz/form_test/'.$local_file_name.'">';
+            return '<img  src="https://yc.qianqianya.xyz/form_test/'.$local_file_name.'" width=100px>';
         });
         $grid->url('Url');
         $grid->add_time('Add time');
