@@ -212,10 +212,11 @@ class WeixinController extends Controller
         $head=$data['headimgurl'];
         $arr=[
             'openid'=>$openid,
-            'head'=>$head
+            'head'=>$head,
+            'name'=>$name
         ];
         return $content
-            ->header('给'.$name.'发消息')
+            ->header($name)
             ->description('description')
             ->body(view('admin.touser',$arr));
     }
