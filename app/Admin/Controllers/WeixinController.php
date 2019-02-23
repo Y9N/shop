@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Model\WeixinUser;
 use App\Http\Controllers\Controller;
+use App\Model\WxMsg;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -210,10 +211,12 @@ class WeixinController extends Controller
         $data=WeixinUser::where('openid',$openid)->first();
         $name=$data['nickname'];
         $head=$data['headimgurl'];
+        $array=WxMsg::get()->toArray();
         $arr=[
             'openid'=>$openid,
             'head'=>$head,
-            'name'=>$name
+            'name'=>$name,
+            'array'=>$array
         ];
         return $content
             ->header($name)

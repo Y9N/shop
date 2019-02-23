@@ -5,6 +5,16 @@
 @endsection
 @section('content')--}}{{--
 <div align="center" style="padding-right: 20px;"><br><b>{{$name}}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--}}<img src="{{$head}}" width="100px">
+<div>
+    <table>
+        @foreach($array as $v)
+        <tr>
+            <td>{{$name}}:</td>
+            <td>{{$v['massage']}}</td>
+        </tr>
+        @endforeach
+    </table>
+</div>
 <div style="padding-top: 240px">
 <form action="touser" method="post">
         {{csrf_field()}}
