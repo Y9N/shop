@@ -91,13 +91,25 @@ class WeixinController extends Controller
         $grid->openid('Openid')->display(function($openid){
             return '<a href="touser?openid='.$openid.'">'.$openid.'</a>';
         });
-        $grid->add_time('Add time');
+        $grid->add_time('Add time')->display(function($add_time){
+            return date('Y-m-d h:i:s',$add_time);
+        });
         $grid->nickname('Nickname');
-        $grid->sex('Sex');
+        $grid->sex('Sex')->display(function($sex){
+            if($sex==1){
+                return '男';
+            }elseif($sex==2){
+                return '女';
+            }elseif($sex==0){
+                return '保密';
+            }
+        });;
         $grid->headimgurl('Headimgurl')->display(function($img_url){
             return '<img src='.$img_url.'>';
         });
-        $grid->subscribe_time('Subscribe time');
+        $grid->subscribe_time('Subscribe time')->display(function($subscribe_time){
+            return date('Y-m-d h:i:s',$subscribe_time);
+        });;
         return $grid;
     }
 
@@ -161,42 +173,6 @@ class WeixinController extends Controller
             Redis::setTimeout($this->redis_weixin_access_token,3600);
         }
         return $token;
-
-    }
-    /*群发*/
-    public function autosend()
-    {
-        $text=$_GET['text'];
-        $access_token = $this->getWXAccessToken();
-        $url = 'https://api.weixin.qq.com/cgi-bin/message/mass/sendall?access_token='.$access_token;
-        //var_dump($url);exit;
-        $client = new GuzzleHttp\Client(['base_url' => $url]);
-        $param = [
-            "filter"=>[
-                "is_to_all"=>true
-            ],
-            "text"=>[
-                "content"=>$text
-            ],
-            "msgtype"=>"text"
-        ];
-        ///var_dump($param);exit;
-        $r = $client->Request('POST', $url, [
-            'body' => json_encode($param, JSON_UNESCAPED_UNICODE)
-        ]);
-        //var_dump($r);exit;
-        $response_arr = json_decode($r->getBody(), true);
-        //echo '<pre>';
-        //print_r($response_arr);
-        // echo '</pre>';
-        if ($response_arr['errcode'] == 0) {
-            echo "发送成功";
-        } else {
-            echo "发送失败";
-            echo '</br>';
-            echo $response_arr['errmsg'];
-
-        }
 
     }
     /*视图层*/
