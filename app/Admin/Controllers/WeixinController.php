@@ -268,8 +268,11 @@ class WeixinController extends Controller
         $data=WeixinUser::where('openid',$openid)->first();
         $name=$data['nickname'];
         $array=WxMsg::where('openid',$openid)->get()->toArray();
+        foreach($array as $k=>$v){
+            $array[$k]['add_time']=date('Y-m-d h:i:s',$v['add_time']);
+        }
         //$array['name']=$name;
-        //var_dump($array);
+        //var_dump($array);die;
         $arr['array']=$array;
         $arr['name']=$name;
         echo json_encode($arr);

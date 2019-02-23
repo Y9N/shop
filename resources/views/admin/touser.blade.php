@@ -5,6 +5,10 @@
         <thead class="head">
         @foreach($array as $v)
         <tr>
+            <td>{{date('Y-m-d h:i:s',$v['add_time'])}}</td>
+            <td></td>
+        </tr>
+        <tr>
             <td>{{$name}}：</td>
             <td>{{$v['massage']}}</td>
         </tr>
@@ -45,7 +49,6 @@
             )
         })
         var newmsg=function(){
-            //console.log(111)
             var openid=$('#openid').val();
             var _tr=""
             $.get(
@@ -53,10 +56,12 @@
                     function(msg){
                         //console.log(msg)
                         for(var i in msg['array']) {
-                            _tr +="<tr>" +
-                                    "<td>"+msg['name']+"：</td>" +
+                            _tr +="<tr>"+
+                                    "<td>"+msg['array'][i]['add_time']+"</td>" +
+                                    "<td></td>" +
+                                    "</tr><tr>"+"<td>"+msg['name']+"：</td>" +
                                     "<td>"+msg['array'][i]['massage']+"</td>" +
-                                  "</tr>"
+                                    "</tr>"
                         }
                         $('.head').html(_tr)
                     },'json'
@@ -64,6 +69,6 @@
         }
         var s= setInterval(function(){
             newmsg();
-        }, 1000*5)
+        }, 1000*3)
     })
 </script>
