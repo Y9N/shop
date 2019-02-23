@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Weixin;
 
 use App\Model\WeixinMedia;
+use App\Model\WxMsg;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\WeixinUser;
@@ -46,6 +47,12 @@ class WeixinController extends Controller
                 if(substr_count($msg,'男')||substr_count($msg,'女')){
                     $msg='对你来说，我应该是你的异性';
                 }
+                $data=[
+                    'openid'=>$openid,
+                    'massage'=>$msg,
+                    'add_time'=>time()
+                ];
+                WxMsg::insertGetId($data);
                 if(substr_count($msg,'叫啥')||substr_count($msg,'叫什么')){
                     $msg='我是你爸';
                 }
