@@ -211,7 +211,9 @@ class WeixinController extends Controller
         $data=WeixinUser::where('openid',$openid)->first();
         $name=$data['nickname'];
         $head=$data['headimgurl'];
-        $array=WxMsg::get()->toArray();
+        //echo $openid;
+        $array=WxMsg::where('openid',$openid)->get()->toArray();
+        //print_r($array);die;
         $arr=[
             'openid'=>$openid,
             'head'=>$head,
@@ -249,7 +251,7 @@ class WeixinController extends Controller
         //print_r($response_arr);
         // echo '</pre>';
         if ($response_arr['errcode'] == 0) {
-            echo "发送成功";
+            return "发送成功";
         } else {
             echo "发送失败";
             echo '</br>';
@@ -257,5 +259,19 @@ class WeixinController extends Controller
 
         }
 
+    }
+    /**更新消息*/
+    public function usermsg(Request $request){
+        //echo 1111;die;
+
+        $openid=$request->input('openid');
+        $data=WeixinUser::where('openid',$openid)->first();
+        $name=$data['nickname'];
+        $array=WxMsg::where('openid',$openid)->get()->toArray();
+        //$array['name']=$name;
+        //var_dump($array);
+        $arr['array']=$array;
+        $arr['name']=$name;
+        echo json_encode($arr);
     }
 }

@@ -1,30 +1,69 @@
-{{--@extends('layout.bst')
-@section('title')
-@endsection
-@section('header')
-@endsection
-@section('content')--}}{{--
-<div align="center" style="padding-right: 20px;"><br><b>{{$name}}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--}}<img src="{{$head}}" width="100px">
+<script src="{{URL::asset('/js/jquery-3.2.1.min.js')}}"></script>
+<img src="{{$head}}" width="100px">
 <div>
     <table>
+        <thead class="head">
         @foreach($array as $v)
         <tr>
-            <td>{{$name}}:</td>
+            <td>{{$name}}：</td>
             <td>{{$v['massage']}}</td>
         </tr>
         @endforeach
+        </thead>
     </table>
+</div>
+<div style="float: right" id="kefu">
+
 </div>
 <div style="padding-top: 240px">
 <form action="touser" method="post">
         {{csrf_field()}}
-        <textarea name="text" id="" cols="200" rows="5"></textarea>
-        <input type="hidden" value="{{$openid}}" name="openid">
-        <input type="submit" value="发送">
+        <textarea name="text"  cols="200" rows="5" id="text"></textarea>
+        <input type="hidden" value="{{$openid}}" name="openid" id="openid">
+        <input type="button" value="发送" id="sub">
     </form>
 </div>
-{{--</div>--}}
-{{--
-@endsection
-@section('footer')
-@endsection--}}
+<script>
+    //setTimeout("window.location.reload()",1000);
+    //setTimeout(function(){t()}, 3000);
+    $(function(){
+        $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+        $('#sub').click(function(){
+            var text=$('#text').val();
+            var openid=$('#openid').val();
+            $.post(
+                    "touser",
+                    {text:text,openid:openid},
+                    function(msg){
+                        if(msg=='发送成功'){
+                            $('#kefu').append('<p>'+text+'：客服</p>');
+                            $('#text').val('');
+                        }else{
+                            alert('msg');
+                        }
+                    }
+            )
+        })
+        var newmsg=function(){
+            //console.log(111)
+            var openid=$('#openid').val();
+            var _tr=""
+            $.get(
+                    "usermsg?openid="+openid,
+                    function(msg){
+                        //console.log(msg)
+                        for(var i in msg['array']) {
+                            _tr +="<tr>" +
+                                    "<td>"+msg['name']+"：</td>" +
+                                    "<td>"+msg['array'][i]['massage']+"</td>" +
+                                  "</tr>"
+                        }
+                        $('.head').html(_tr)
+                    },'json'
+            )
+        }
+        var s= setInterval(function(){
+            newmsg();
+        }, 1000*5)
+    })
+</script>

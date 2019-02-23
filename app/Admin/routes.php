@@ -25,5 +25,6 @@ Route::group([
 
     $router->get('/touser','WeixinController@touserview'); //与用户联系
     $router->post('/touser','WeixinController@touser'); //与用户联系
+    $router->get('/usermsg','WeixinController@usermsg'); //更新数据
 
 });
