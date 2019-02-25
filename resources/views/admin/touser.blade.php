@@ -17,7 +17,9 @@
     </table>
 </div>
 <div style="float: right" id="kefu">
-
+    @foreach($kefu as $v)
+        <p>{{$v['massage']}}：客服</p>
+    @endforeach
 </div>
 <div style="padding-top: 240px">
 <form action="touser" method="post">

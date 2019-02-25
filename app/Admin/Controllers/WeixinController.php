@@ -188,13 +188,15 @@ class WeixinController extends Controller
         $name=$data['nickname'];
         $head=$data['headimgurl'];
         //echo $openid;
-        $array=WxMsg::where('openid',$openid)->get()->toArray();
+        $array=WxMsg::where('openid',$openid)->where('msg_type',1)->get()->toArray();
+        $kefu=WxMsg::where('openid',$openid)->where('msg_type',2)->get()->toArray();
         //print_r($array);die;
         $arr=[
             'openid'=>$openid,
             'head'=>$head,
             'name'=>$name,
-            'array'=>$array
+            'array'=>$array,
+            'kefu'=>$kefu
         ];
         return $content
             ->header($name)
@@ -227,6 +229,13 @@ class WeixinController extends Controller
         //print_r($response_arr);
         // echo '</pre>';
         if ($response_arr['errcode'] == 0) {
+            $data=[
+                'openid'=>$openid,
+                'massage'=>$text,
+                'msg_type'=>2,
+                'add_time'=>time()
+            ];
+            WxMsg::insertGetId($data);
             return "发送成功";
         } else {
             echo "发送失败";
@@ -238,17 +247,13 @@ class WeixinController extends Controller
     }
     /**更新消息*/
     public function usermsg(Request $request){
-        //echo 1111;die;
-
         $openid=$request->input('openid');
         $data=WeixinUser::where('openid',$openid)->first();
         $name=$data['nickname'];
-        $array=WxMsg::where('openid',$openid)->get()->toArray();
+        $array=WxMsg::where('openid',$openid)->where('msg_type',1)->get()->toArray();
         foreach($array as $k=>$v){
             $array[$k]['add_time']=date('Y-m-d h:i:s',$v['add_time']);
         }
-        //$array['name']=$name;
-        //var_dump($array);die;
         $arr['array']=$array;
         $arr['name']=$name;
         echo json_encode($arr);

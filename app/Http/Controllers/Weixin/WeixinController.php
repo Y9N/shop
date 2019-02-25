@@ -50,7 +50,8 @@ class WeixinController extends Controller
                 $data=[
                     'openid'=>$openid,
                     'massage'=>$msg,
-                    'add_time'=>time()
+                    'add_time'=>time(),
+                    'msg_type'=>1
                 ];
                 WxMsg::insertGetId($data);
                 if(substr_count($msg,'叫啥')||substr_count($msg,'叫什么')){
