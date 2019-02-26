@@ -28,7 +28,6 @@
         </tr>
         @endforeach
     </table>
-    {{$data->links()}}
 @endsection
 @section('footer')
 @endsection
