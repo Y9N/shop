@@ -188,7 +188,7 @@ class PayController extends Controller
 
             if($sign){       //签名验证成功
                 //TODO 逻辑处理  订单状态更新
-                $oid = $_POST['out_trade_no'];     //商户订单号
+                $oid = $_POST['product_id'];     //商户订单号
                 $info = [
                     'is_pay'        => 1,       //支付状态  0未支付 1已支付
                     /*'pay_amount'    => $_POST['total_amount'],    //支付金额
