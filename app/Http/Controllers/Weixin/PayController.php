@@ -200,9 +200,10 @@ class PayController extends Controller
         //var_dump($xml->mch_id);die;
         if($xml->result_code=='SUCCESS' && $xml->return_code=='SUCCESS'){      //微信支付成功回调
             //验证签名
-            $sign = true;
+            //$sign = true;
+            $sign=$this->MakeSign();
 
-            if($sign){       //签名验证成功
+            if($xml->sign==$sign){       //签名验证成功
                 //TODO 逻辑处理  订单状态更新
                 $oid = $xml->out_trade_no;     //商户订单号
                 $info = [
