@@ -192,7 +192,7 @@ class PayController extends Controller
                 $info = [
                     'is_pay'        => 1,       //支付状态  0未支付 1已支付
                     'pay_amount'    => $xml->total_fee,    //支付金额
-                    'pay_time'      => $xml->time_end, //支付时间
+                    'pay_time'      => time(), //支付时间
                     'plat_oid'      => $xml->transaction_id,      //微信订单号
                     'plat'          => 2,      //平台编号 1支付宝 2微信
                 ];
