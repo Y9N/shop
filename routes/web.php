@@ -112,10 +112,11 @@ Route::post('/weixin/valid1','Weixin\WeixinController@wxEvent');        //接收
 Route::post('/weixin/valid','Weixin\WeixinController@validToken');
 Route::get('/weixin/createMenu','Weixin\WeixinController@createMenu'); ///创建服务号菜单
 Route::get('/weixin/refreshToken','Weixin\WeixinController@refreshToken'); ///创建服务号菜单
-Route::post('/weixin/autosend','Weixin\WeixinController@autosend'); ///创建服务号菜单
+Route::post('/weixin/autosend','Weixin\WeixinController@autosend'); //创建服务号菜单
 
 
 
-Route::get('/weixin/pay/paynow','Weixin\PayController@pay'); ///微信支付回调
+Route::get('/weixin/pay/paynow/{order_number}','Weixin\PayController@pay'); ///微信支付回调
 Route::post('/weixin/pay/notice','Weixin\PayController@notice'); ///微信支付回调
+Route::get('/weixin/pay/code_url/{code_url}','Weixin\PayController@code_url'); ///二维码
 

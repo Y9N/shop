@@ -8,6 +8,8 @@
     <title>BootStrap</title>
     <script src="{{URL::asset('/js/jquery-1.12.4.min.js')}}"></script>
     <script src="{{URL::asset('/bootstrap/js/bootstrap.min.js')}}"></script>
+    <script src="{{URL::asset('/js/jquery-3.2.1.min.js')}}"></script>
+    <script src="{{URL::asset('/bootstrap/js/jquery.qrcode.min.js')}}"></script>
 
     <link rel="stylesheet" href="{{URL::asset('/bootstrap/css/bootstrap.min.css')}}">
 </head>

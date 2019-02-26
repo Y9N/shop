@@ -38,7 +38,7 @@ class OrderController extends Controller
 			$order_amount+=$goods_info['goods_price']*$v['buy_num'];
 		}
 		//生成订单号
-		$OrderNumber=CmsOrder::GenerateOrderNumber();
+		$OrderNumber=CmsOrder::generateOrderSN();
 		//echo $OrderNumber;
 		$data=[
 			'order_number'=>$OrderNumber,

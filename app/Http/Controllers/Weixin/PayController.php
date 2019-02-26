@@ -15,13 +15,13 @@ class PayController extends Controller
     public $weixin_unifiedorder_url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
     public $weixin_notify_url = 'https://yc.qianqianya.xyz/weixin/pay/notice';     //支付通知回调
 
-    public function pay()
+    public function pay($order_number)
     {
 
 
         //
         $total_fee = 1;         //用户要支付的总金额
-        $order_id = CmsOrder::generateOrderSN(); //订单号
+        $order_id = base64_decode($order_number); //订单号
 
         $order_info = [
             'appid'         =>  env('WEIXIN_APPID_0'),      //微信支付绑定的服务号的APPID
@@ -55,12 +55,20 @@ class PayController extends Controller
 //		echo 'result_code: '.$data->result_code;echo '<br>';
 //		echo 'prepay_id: '.$data->prepay_id;echo '<br>';
 //		echo 'trade_type: '.$data->trade_type;echo '<br>';
-		echo 'code_url: '.$data->code_url;echo '<br>';
+		$url=$data->code_url;
+        $url=base64_encode($url);
 //        die;
         //echo '<pre>';print_r($data);echo '</pre>';
+        //echo $url;die;
+        header('refresh:0;url=/weixin/pay/code_url/'.$url.'');
 
         //将 code_url 返回给前端，前端生成 支付二维码
 
+    }
+    public function code_url($code_url){
+        $code_url=base64_decode($code_url);
+        //echo $code_url;die;
+        return view('weixin.pay',['code_url'=>$code_url]);
     }
 
 
@@ -172,14 +180,23 @@ class PayController extends Controller
         file_put_contents('logs/wx_pay_notice.log',$log_str,FILE_APPEND);
 
         $xml = simplexml_load_string($data);
-
+        var_dump($xml);echo "<br>";
+        var_dump($xml->mch_id);die;
         if($xml->result_code=='SUCCESS' && $xml->return_code=='SUCCESS'){      //微信支付成功回调
             //验证签名
             $sign = true;
 
             if($sign){       //签名验证成功
                 //TODO 逻辑处理  订单状态更新
-
+                /*$oid = $_POST['out_trade_no'];     //商户订单号
+                $info = [
+                    'is_pay'        => 1,       //支付状态  0未支付 1已支付
+                    'pay_amount'    => $_POST['total_amount'],    //支付金额
+                    'pay_time'      => strtotime($_POST['gmt_payment']), //支付时间
+                    'plat_oid'      => $_POST['trade_no'],      //支付宝订单号
+                    'plat'          => 2,      //平台编号 1支付宝 2微信
+                ];
+                CmsOrder::where(['order_number'=>$oid])->update($info);*/
             }else{
                 //TODO 验签失败
                 echo '验签失败，IP: '.$_SERVER['REMOTE_ADDR'];
