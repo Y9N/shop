@@ -188,12 +188,12 @@ class PayController extends Controller
 
             if($sign){       //签名验证成功
                 //TODO 逻辑处理  订单状态更新
-                $oid = $_POST['product_id'];     //商户订单号
+                $oid = $xml->out_trade_no;     //商户订单号
                 $info = [
                     'is_pay'        => 1,       //支付状态  0未支付 1已支付
-                    /*'pay_amount'    => $_POST['total_amount'],    //支付金额
-                    'pay_time'      => $_POST['time_stamp'], //支付时间
-                    'plat_oid'      => $_POST['out_trade_no'],      //微信订单号*/
+                    'pay_amount'    => $xml->total_fee,    //支付金额
+                    'pay_time'      => $xml->time_end, //支付时间
+                    'plat_oid'      => $xml->transaction_id,      //微信订单号
                     'plat'          => 2,      //平台编号 1支付宝 2微信
                 ];
                 CmsOrder::where(['order_number'=>$oid])->update($info);
