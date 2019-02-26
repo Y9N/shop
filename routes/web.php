@@ -119,4 +119,6 @@ Route::post('/weixin/autosend','Weixin\WeixinController@autosend'); //创建服�
 Route::get('/weixin/pay/paynow/{order_number}','Weixin\PayController@pay'); ///微信支付回调
 Route::post('/weixin/pay/notice','Weixin\PayController@notice'); ///微信支付回调
 Route::get('/weixin/pay/code_url/{code_url}','Weixin\PayController@code_url'); ///二维码
+Route::get('/weixin/pay/success','Weixin\PayController@success'); ///二维码
+Route::post('/weixin/pay/ifsuccess','Weixin\PayController@ifsuccess'); ///判断是否支付成功
 

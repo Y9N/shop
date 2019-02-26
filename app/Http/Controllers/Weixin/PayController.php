@@ -22,7 +22,7 @@ class PayController extends Controller
         //
         $total_fee = 1;         //用户要支付的总金额
         $order_id = base64_decode($order_number); //订单号
-
+        setcookie('order_id',$order_id,time()+3600,'/','',false,true);
         $order_info = [
             'appid'         =>  env('WEIXIN_APPID_0'),      //微信支付绑定的服务号的APPID
             'mch_id'        =>  env('WEIXIN_MCH_ID'),       // 商户ID
@@ -67,8 +67,24 @@ class PayController extends Controller
     }
     public function code_url($code_url){
         $code_url=base64_decode($code_url);
+        $order_id=$_COOKIE['order_id'];
         //echo $code_url;die;
-        return view('weixin.pay',['code_url'=>$code_url]);
+        return view('weixin.pay',['code_url'=>$code_url,'order_id'=>$order_id]);
+    }
+
+    public function ifsuccess(Request $request)
+    {
+        $order_id=$request->input('order_id');
+        $data=CmsOrder::where('order_number',$order_id)->first();
+        if($data['is_pay']==2){
+            echo 2;
+        }else{
+            echo 1;
+        }
+    }
+
+    public function success(){
+        echo '支付成功';
     }
 
 
