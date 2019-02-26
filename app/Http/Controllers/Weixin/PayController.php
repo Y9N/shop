@@ -180,23 +180,23 @@ class PayController extends Controller
         file_put_contents('logs/wx_pay_notice.log',$log_str,FILE_APPEND);
 
         $xml = simplexml_load_string($data);
-        var_dump($xml);echo "<br>";
-        var_dump($xml->mch_id);die;
+        //var_dump($xml);echo "<br>";
+        //var_dump($xml->mch_id);die;
         if($xml->result_code=='SUCCESS' && $xml->return_code=='SUCCESS'){      //微信支付成功回调
             //验证签名
             $sign = true;
 
             if($sign){       //签名验证成功
                 //TODO 逻辑处理  订单状态更新
-                /*$oid = $_POST['out_trade_no'];     //商户订单号
+                $oid = $_POST['out_trade_no'];     //商户订单号
                 $info = [
                     'is_pay'        => 1,       //支付状态  0未支付 1已支付
-                    'pay_amount'    => $_POST['total_amount'],    //支付金额
-                    'pay_time'      => strtotime($_POST['gmt_payment']), //支付时间
-                    'plat_oid'      => $_POST['trade_no'],      //支付宝订单号
+                    /*'pay_amount'    => $_POST['total_amount'],    //支付金额
+                    'pay_time'      => $_POST['time_stamp'], //支付时间
+                    'plat_oid'      => $_POST['out_trade_no'],      //微信订单号*/
                     'plat'          => 2,      //平台编号 1支付宝 2微信
                 ];
-                CmsOrder::where(['order_number'=>$oid])->update($info);*/
+                CmsOrder::where(['order_number'=>$oid])->update($info);
             }else{
                 //TODO 验签失败
                 echo '验签失败，IP: '.$_SERVER['REMOTE_ADDR'];
