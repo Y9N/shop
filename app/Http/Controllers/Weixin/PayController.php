@@ -202,8 +202,8 @@ class PayController extends Controller
         $data = file_get_contents("php://input");
 
         //记录日志
-        /*$log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
-        file_put_contents('logs/wx_pay_notice.log',$log_str,FILE_APPEND);*/
+        $log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
+        file_put_contents('logs/wx_pay_notice.log',$log_str,FILE_APPEND);
 
         $xml = (array)simplexml_load_string($data, 'SimpleXMLElement', LIBXML_NOCDATA);
         //var_dump($xml);echo "<br>";
@@ -229,12 +229,9 @@ class PayController extends Controller
                 echo '验签失败，IP: '.$_SERVER['REMOTE_ADDR'];
                 // TODO 记录日志
             }
-
         }
-
         $response = '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
         echo $response;
-
     }
 
 
