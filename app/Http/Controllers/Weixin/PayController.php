@@ -195,8 +195,8 @@ class PayController extends Controller
         $data = file_get_contents("php://input");
 
         //记录日志
-        /*$log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
-        file_put_contents('logs/wx_pay_notice.log',$log_str,FILE_APPEND);*/
+        $log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
+        file_put_contents('logs/wx_pay_notice.log',$log_str,FILE_APPEND);
 
         $xml = simplexml_load_string($data);
         //var_dump($xml);echo "<br>";
