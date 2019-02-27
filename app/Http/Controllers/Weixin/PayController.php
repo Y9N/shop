@@ -195,30 +195,25 @@ class PayController extends Controller
         $data = file_get_contents("php://input");
 
         //记录日志
-        $log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
-        file_put_contents('logs/wx_pay_notice.log',$log_str,FILE_APPEND);
+        /*$log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
+        file_put_contents('logs/wx_pay_notice.log',$log_str,FILE_APPEND);*/
 
-        $xml = simplexml_load_string($data);
+        $xml = (array)simplexml_load_string($data, 'SimpleXMLElement', LIBXML_NOCDATA);
         //var_dump($xml);echo "<br>";
         //var_dump($xml->mch_id);die;
-        if($xml->result_code=='SUCCESS' && $xml->return_code=='SUCCESS'){      //微信支付成功回调
+        if($xml['result_code']=='SUCCESS' && $xml['return_code']=='SUCCESS'){      //微信支付成功回调
             //验证签名
-            $arr=json_decode(json_encode($xml),true);
-            //print_r($arr['sign']);die;
-            //$sign = true;
             $this->values = [];
-            $this->values =$arr['sign'];
+            $this->values =$xml;
             $sign=$this->SetSign();
-            //print_r($sign);die;
-            //$sign=true;
-            if($xml->sign==$sign){       //签名验证成功
+            if($xml['sign']==$sign){       //签名验证成功
                 //TODO 逻辑处理  订单状态更新
-                $oid = $xml->out_trade_no;     //商户订单号
+                $oid = $xml['out_trade_no'];     //商户订单号
                 $info = [
                     'is_pay'        => 1,       //支付状态  0未支付 1已支付
-                    'pay_amount'    => $xml->total_fee,    //支付金额
+                    'pay_amount'    => $xml['total_fee'],    //支付金额
                     'pay_time'      => time(), //支付时间
-                    'plat_oid'      => $xml->transaction_id,      //微信订单号
+                    'plat_oid'      => $xml['transaction_id'],      //微信订单号
                     'plat'          => 2,      //平台编号 1支付宝 2微信
                 ];
                 CmsOrder::where(['order_number'=>$oid])->update($info);
