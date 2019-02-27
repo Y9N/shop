@@ -21,7 +21,7 @@
             <td>{{date('Y-m-d H:i:s',$v['add_time'])}}</td>
             <td>
                 @if($v['is_pay']==2)
-                    <a   role="button" href="/weixin/pay/paynow/{{base64_encode($v['order_number'])}}" class="btn btn-success btn-xs">微信去支付</a>
+                    <a   role="button" href="/weixin/pay/paynow/{{($v['order_number'])}}" class="btn btn-success btn-xs">微信去支付</a>
                     <a   role="button" href="/orderpay/{{base64_encode($v['order_number'])}}" class="btn btn-success btn-xs">去支付</a>
                     <a   role="button" href="/orderdel/{{$v['order_number']}}" class="btn btn-danger btn-xs">取消订单</a>
                 @elseif($v['is_pay']==1)

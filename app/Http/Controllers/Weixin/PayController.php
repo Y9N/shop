@@ -22,17 +22,17 @@ class PayController extends Controller
      */
     public function pay($order_number)
     {
-        //
+        //echo __METHOD__;die;
         $total_fee = 1;         //用户要支付的总金额
-        $order_id = base64_decode($order_number); //订单号
-        setcookie('order_id',$order_id,time()+3600,'/','',false,true);
+        //$order_id = base64_decode($order_number); //订单号
+        //setcookie('order_id',$order_number,time()+3600,'/','',false,true);
         $order_info = [
             'appid'         =>  env('WEIXIN_APPID_0'),      //微信支付绑定的服务号的APPID
             'mch_id'        =>  env('WEIXIN_MCH_ID'),       // 商户ID
             'nonce_str'     => str_random(16),             // 随机字符串
             'sign_type'     => 'MD5',
-            'body'          => '测试订单-'.mt_rand(1111,9999) . str_random(6),
-            'out_trade_no'  => $order_id,                       //本地订单号
+            'body'          => '测试订单-'.$order_number,
+            'out_trade_no'  => $order_number,                       //本地订单号
             'total_fee'     => $total_fee,
             'spbill_create_ip'  => $_SERVER['REMOTE_ADDR'],     //客户端IP
             'notify_url'    => $this->weixin_notify_url,        //通知回调地址
@@ -48,22 +48,29 @@ class PayController extends Controller
         $rs = $this->postXmlCurl($xml, $this->weixin_unifiedorder_url, $useCert = false, $second = 30);
 
         $data =  simplexml_load_string($rs);
-//        //var_dump($data);echo '<hr>';
-//        echo 'return_code: '.$data->return_code;echo '<br>';
-//		echo 'return_msg: '.$data->return_msg;echo '<br>';
-//		echo 'appid: '.$data->appid;echo '<br>';
-//		echo 'mch_id: '.$data->mch_id;echo '<br>';
-//		echo 'nonce_str: '.$data->nonce_str;echo '<br>';
-//		echo 'sign: '.$data->sign;echo '<br>';
-//		echo 'result_code: '.$data->result_code;echo '<br>';
-//		echo 'prepay_id: '.$data->prepay_id;echo '<br>';
-//		echo 'trade_type: '.$data->trade_type;echo '<br>';
-		$url=$data->code_url;
-        $url=base64_encode($url);
-//        die;
+        /*var_dump($data);echo '<hr>';
+        echo "err_code:". $data->err_code.'<br>';
+        echo "err_code_des:". $data->err_code_des.'<br>';
+        echo "code_url:". $data->code_url.'<br>';die;
+        echo 'return_code: '.$data->return_code;echo '<br>';
+		echo 'return_msg: '.$data->return_msg;echo '<br>';
+		echo 'appid: '.$data->appid;echo '<br>';
+		echo 'mch_id: '.$data->mch_id;echo '<br>';
+		echo 'nonce_str: '.$data->nonce_str;echo '<br>';
+		echo 'sign: '.$data->sign;echo '<br>';
+		echo 'result_code: '.$data->result_code;echo '<br>';
+		echo 'prepay_id: '.$data->prepay_id;echo '<br>';
+		echo 'trade_type: '.$data->trade_type;echo '<br>';
+        echo "err_code:". $data->err_code.'<br>';
+        echo "err_code_des:". $data->err_code_des.'<br>';
+        echo "code_url:". $data->code_url.'<br>';*/
+        $url=$data->code_url;
+        return view('weixin.pay',['code_url'=>$url,'order_id'=>$order_number]);
+        //$url=base64_encode($url);
+        //die;
         //echo '<pre>';print_r($data);echo '</pre>';
         //echo $url;die;
-        header('refresh:0;url=/weixin/pay/code_url/'.$url.'');
+        //header('refresh:0;url=/weixin/pay/code_url/'.$url.'');
 
         //将 code_url 返回给前端，前端生成 支付二维码
 
