@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Weixin\WXBizDataCryptController;
 use App\Model\OrderModel;
+use GuzzleHttp;
 
 class PayController extends Controller
 {
@@ -204,10 +205,10 @@ class PayController extends Controller
             //验证签名
             //$sign = true;
             $this->values = [];
-            $this->values = $xml;
+            $this->values =json_decode($xml,true);
             $sign=$this->SetSign();
             //$sign=true;
-            if($xml->sign==$sign){       //签名验证成功
+            if($xml->sign==$sign['sign']){       //签名验证成功
                 //TODO 逻辑处理  订单状态更新
                 $oid = $xml->out_trade_no;     //商户订单号
                 $info = [
