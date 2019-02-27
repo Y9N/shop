@@ -203,9 +203,11 @@ class PayController extends Controller
         //var_dump($xml->mch_id);die;
         if($xml->result_code=='SUCCESS' && $xml->return_code=='SUCCESS'){      //微信支付成功回调
             //验证签名
+            $arr=array($xml);
+            print_r($arr);die;
             //$sign = true;
             $this->values = [];
-            $this->values =json_decode($xml,true);
+            $this->values =json_decode($xml->sign,true);
             $sign=$this->SetSign();
             //$sign=true;
             if($xml->sign==$sign['sign']){       //签名验证成功
