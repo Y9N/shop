@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Weixin;
 
+use App\Model\UserModel;
 use App\Model\WeixinMedia;
 use App\Model\WxMsg;
 use Illuminate\Http\Request;
@@ -35,5 +36,39 @@ class WeixinUserController extends Controller
        $user_arr = json_decode($user_json,true);
        echo '<hr>';
        echo '<pre>';print_r($user_arr);echo '</pre>';
+       $this->dateaseuser($user_arr);
    }
+    public function dateaseuser($user_arr){
+        $unionid=$user_arr['unionid'];
+        $nickname=$user_arr['nickname'];
+        $data=WeixinUser::where('unionid',$unionid)->first();
+        if($data){
+            return '登陆成功';
+        }else{
+            $user_info=[
+                'nickname'=>$nickname
+            ];
+            $id=UserModel::insertGetId($user_info);
+            if($id){
+                $weixin_info=[
+                    'uid'=>$id,
+                    'openid'=>$user_arr['openid'],
+                    'add_time'=>time(),
+                    'nickname'=>$user_arr['nickname'],
+                    'sex'=>$user_arr['sex'],
+                    'headimgurl'=>$user_arr['headimgurl'],
+                    'unionid'=>$user_arr['unionid'],
+                    'subscribe_time'=>time()
+                ];
+                $wid=WeixinUser::insertGetId($weixin_info);
+                if($wid){
+                    return '存入数据库成功';
+                }else{
+                    return '登录失败wx_user';
+                }
+            }else{
+                return '登录失败users';
+            }
+        }
+    }
 }
