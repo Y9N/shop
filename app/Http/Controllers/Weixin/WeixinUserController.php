@@ -45,8 +45,8 @@ class WeixinUserController extends Controller
         $data=WeixinUser::where('unionid',$unionid)->first();
         if($data){
             $token = substr(md5(time().mt_rand(1,99999)),10,10);
-            session('u_token',$token);
-            session('u_id',$data['uid']);
+            session()->put('u_token',$token);
+            session()->put('u_id',$data['uid']);
             return '登陆成功';
         }else{
             $user_info=[
@@ -67,8 +67,8 @@ class WeixinUserController extends Controller
                 $wid=WeixinUser::insertGetId($weixin_info);
                 if($wid){
                     $token = substr(md5(time().mt_rand(1,99999)),10,10);
-                    session('u_token',$token);
-                    session('u_id',$id);
+                    session()->put('u_token',$token);
+                    session()->put('u_id',$id);
                     return '存入数据库成功';
                 }else{
                     return '登录失败wx_user';
