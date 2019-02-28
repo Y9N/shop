@@ -63,27 +63,27 @@ Route::get('/test/check_cookie','Test\TestController@checkCookie')->middleware('
 Route::get('/test/check_uid','Test\TestController@checkUid')->middleware('check.uid');
 //购物车
 //Route::get('/cart','Cart\IndexController@index')->middleware('check.uid');
-Route::get('/cart','Cart\IndexController@index')->middleware('check.login.token');
-Route::get('/cart2','Cart\IndexController@index2')->middleware('check.login.token');//->middleware('check.login.token')
+Route::get('/cart','Cart\IndexController@index');
+Route::get('/cart2','Cart\IndexController@index2');//->middleware('check.login.token')
 /*添加购物车*/
-Route::get('/cart/add/{goods_id}','Cart\IndexController@add')->middleware('check.login.token');//->middleware('check.login.token')
-Route::post('/cart/add2','Cart\IndexController@add2')->middleware('check.login.token');//->middleware('check.login.token')
+Route::get('/cart/add/{goods_id}','Cart\IndexController@add');//->middleware('check.login.token')
+Route::post('/cart/add2','Cart\IndexController@add2');//->middleware('check.login.token')
 /*删除购物车*/
-Route::get('/cart/del/{goods_id}','Cart\IndexController@del')->middleware('check.login.token');//->middleware('check.login.token')
-Route::get('/cart/del2/{goods_id}','Cart\IndexController@del2')->middleware('check.login.token');//->middleware('check.login.token')
+Route::get('/cart/del/{goods_id}','Cart\IndexController@del');//->middleware('check.login.token')
+Route::get('/cart/del2/{goods_id}','Cart\IndexController@del2');//->middleware('check.login.token')
 /*查看商品详情*/
 Route::get('/cart/goodslist/{goods_id}','Goods\GoodsController@goodslist');
 Route::post('/goodspage','Goods\GoodsController@goodspage');
 /*生成订单*/
 Route::post('/order','Order\OrderController@createorder');//->middleware('check.login.token')
 /*订单查看*/
-Route::get('/orderlist','Order\OrderController@orderlist')->middleware('check.login.token');//->middleware('check.login.token')
+Route::get('/orderlist','Order\OrderController@orderlist');//->middleware('check.login.token')
 /*取消订单*/
-Route::get('/orderdel/{order_number}','Order\OrderController@orderdel')->middleware('check.login.token');//->middleware('check.login.token')
+Route::get('/orderdel/{order_number}','Order\OrderController@orderdel');//->middleware('check.login.token')
 /*订单支付*/
-Route::get('/orderpay/{order_number}','Pay\PayController@orderpay')->middleware('check.login.token');//->middleware('check.login.token')
+Route::get('/orderpay/{order_number}','Pay\PayController@orderpay');//->middleware('check.login.token')
 /*用户详情*/
-Route::get('/userlist','User\UserController@userlist')->middleware('check.login.token');//->middleware('check.login.token')
+Route::get('/userlist','User\UserController@userlist');//->middleware('check.login.token')
 /*用户退出*/
 Route::get('/userquit','User\UserController@userquit');
 Route::get('/pay','Pay\PayController@pay');
@@ -121,4 +121,12 @@ Route::post('/weixin/pay/notice','Weixin\PayController@notice'); ///微信支付
 Route::get('/weixin/pay/code_url/{code_url}','Weixin\PayController@code_url'); ///二维码
 Route::get('/weixin/pay/success','Weixin\PayController@success'); ///二维码
 Route::post('/weixin/pay/ifsuccess','Weixin\PayController@ifsuccess'); ///判断是否支付成功
+
+
+
+Route::get('/weixin/getcode','Weixin\WeixinUserController@getCode'); ///判断是否支付成功
+
+
+
+
 
