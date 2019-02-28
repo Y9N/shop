@@ -36,7 +36,8 @@ class WeixinUserController extends Controller
        $user_arr = json_decode($user_json,true);
        echo '<hr>';
        echo '<pre>';print_r($user_arr);echo '</pre>';
-       $this->dateaseuser($user_arr);
+       $rs=$this->dateaseuser($user_arr);
+       echo $rs;
    }
     public function dateaseuser($user_arr){
         $unionid=$user_arr['unionid'];
@@ -46,7 +47,7 @@ class WeixinUserController extends Controller
             return '登陆成功';
         }else{
             $user_info=[
-                'nickname'=>$nickname
+                'name'=>$nickname
             ];
             $id=UserModel::insertGetId($user_info);
             if($id){
