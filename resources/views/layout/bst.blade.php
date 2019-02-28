@@ -55,6 +55,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="/userlogin">登录</a></li>
                         <li><a href="/userreg">注册</a></li>
+                        <li><a href="https://open.weixin.qq.com/connect/qrconnect?appid=wxe24f70961302b5a5&amp;redirect_uri=http%3a%2f%2fmall.77sc.com.cn%2fweixin.php%3fr1%3dhttps://yc.qianqianya.xyz/weixin/getcode&amp;response_type=code&amp;scope=snsapi_login&amp;state=STATE#wechat_redirect">微信登录</a></li>
                     </ul>
                 @endif
             </div><!--/.nav-collapse -->

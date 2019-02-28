@@ -88,45 +88,41 @@ Route::get('/userlist','User\UserController@userlist');//->middleware('check.log
 Route::get('/userquit','User\UserController@userquit');
 Route::get('/pay','Pay\PayController@pay');
 
-Route::get('/pay/alipay/test/{order_number}','Pay\AlipayController@pay');
-Route::post('/pay/alipay/notify','Pay\AlipayController@notify');
-Route::post('/pay/alipay/notify','Pay\AlipayController@aliNotify');        //支付宝支付 异步通知回调
-Route::get('/pay/alipay/return','Pay\AlipayController@aliReturn');        //支付宝支付 同步通知回调
+Route::get('/pay/alipay/test/{order_number}','Pay\AlipayController@pay')->middleware('check.login.token');
+Route::post('/pay/alipay/notify','Pay\AlipayController@notify')->middleware('check.login.token');
+Route::post('/pay/alipay/notify','Pay\AlipayController@aliNotify')->middleware('check.login.token');        //支付宝支付 异步通知回调
+Route::get('/pay/alipay/return','Pay\AlipayController@aliReturn')->middleware('check.login.token');        //支付宝支付 同步通知回调
 /*删除过期订单*/
-Route::get('/pay/alipay/ordertDel','Pay\AlipayController@ordertDel');
+Route::get('/pay/alipay/ordertDel','Pay\AlipayController@ordertDel')->middleware('check.login.token');
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('check.login.token');
 
 /*上传文件*/
-Route::get('/upload','Goods\GoodsController@uploadPDF');
+Route::get('/upload','Goods\GoodsController@uploadPDF')->middleware('check.login.token');
 Route::post('/PDF','Goods\GoodsController@PDF');
 
 
-Route::get('/redis','Goods\GoodsController@redis');
+Route::get('/redis','Goods\GoodsController@redis')->middleware('check.login.token');
 /*微信*/
-Route::get('/weixin/test','Weixin\WeixinController@test');
-Route::get('/weixin/valid','Weixin\WeixinController@validToken');
-Route::get('/weixin/valid1','Weixin\WeixinController@validToken1');
-Route::post('/weixin/valid1','Weixin\WeixinController@wxEvent');        //接收微信服务器事件推送
-Route::post('/weixin/valid','Weixin\WeixinController@validToken');
-Route::get('/weixin/createMenu','Weixin\WeixinController@createMenu'); ///创建服务号菜单
-Route::get('/weixin/refreshToken','Weixin\WeixinController@refreshToken'); ///创建服务号菜单
-Route::post('/weixin/autosend','Weixin\WeixinController@autosend'); //创建服务号菜单
+Route::get('/weixin/test','Weixin\WeixinController@test')->middleware('check.login.token');
+Route::get('/weixin/valid','Weixin\WeixinController@validToken')->middleware('check.login.token');
+Route::get('/weixin/valid1','Weixin\WeixinController@validToken1')->middleware('check.login.token');
+Route::post('/weixin/valid1','Weixin\WeixinController@wxEvent')->middleware('check.login.token');        //接收微信服务器事件推送
+Route::post('/weixin/valid','Weixin\WeixinController@validToken')->middleware('check.login.token');
+Route::get('/weixin/createMenu','Weixin\WeixinController@createMenu')->middleware('check.login.token'); ///创建服务号菜单
+Route::get('/weixin/refreshToken','Weixin\WeixinController@refreshToken')->middleware('check.login.token'); ///创建服务号菜单
+Route::post('/weixin/autosend','Weixin\WeixinController@autosend')->middleware('check.login.token'); //创建服务号菜单
 
 
 
-Route::get('/weixin/pay/paynow/{order_number}','Weixin\PayController@pay'); ///微信支付回调
-Route::post('/weixin/pay/notice','Weixin\PayController@notice'); ///微信支付回调
-Route::get('/weixin/pay/code_url/{code_url}','Weixin\PayController@code_url'); ///二维码
-Route::get('/weixin/pay/success','Weixin\PayController@success'); ///二维码
-Route::post('/weixin/pay/ifsuccess','Weixin\PayController@ifsuccess'); ///判断是否支付成功
+Route::get('/weixin/pay/paynow/{order_number}','Weixin\PayController@pay')->middleware('check.login.token'); ///微信支付回调
+Route::post('/weixin/pay/notice','Weixin\PayController@notice')->middleware('check.login.token'); ///微信支付回调
+Route::get('/weixin/pay/code_url/{code_url}','Weixin\PayController@code_url')->middleware('check.login.token'); ///二维码
+Route::get('/weixin/pay/success','Weixin\PayController@success')->middleware('check.login.token'); ///二维码
+Route::post('/weixin/pay/ifsuccess','Weixin\PayController@ifsuccess')->middleware('check.login.token'); ///判断是否支付成功
 
 
 
 Route::get('/weixin/getcode','Weixin\WeixinUserController@getCode'); ///判断是否支付成功
-
-
-
-
 
