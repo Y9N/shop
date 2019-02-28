@@ -12,7 +12,7 @@ use DB;
 
 class OrderController extends Controller
 {
-	public $uid;
+/*	public $uid;
 	public function __construct()
 	{
 		$this->middleware(function($request,$next){
@@ -20,13 +20,13 @@ class OrderController extends Controller
 			return $next($request);
 		});
 		$this->middleware('auth');
-	}
+	}*/
 	/*
 	 * 生成订单号
 	 * */
 	public function createorder()
 	{
-		$cart=CmsCart::where('u_id',$this->uid)->get()->toArray();
+		$cart=CmsCart::where('u_id',session()->get('u_id'))->get()->toArray();
 		if(empty($cart)){
 			exit('购物车无数据');
 		}
@@ -42,7 +42,7 @@ class OrderController extends Controller
 		//echo $OrderNumber;
 		$data=[
 			'order_number'=>$OrderNumber,
-			'uid'=>$this->uid,
+			'uid'=>session()->get('u_id'),
 			'add_time'=>time(),
 			'order_amount'=>$order_amount,
 		];
@@ -52,7 +52,7 @@ class OrderController extends Controller
 		}else{
 			echo '下单成功,订单号：'.$OrderNumber ;
 			//清空购物车
-			CmsCart::where(['u_id'=>$this->uid])->delete();
+			CmsCart::where(['u_id'=>session()->get('u_id')])->delete();
 			header('refresh:1;url=/orderlist');
 		}
 
@@ -63,7 +63,7 @@ class OrderController extends Controller
 	 *
 	 * */
 	public  function orderlist(){
-		$orderdata=CmsOrder::where('uid',$this->uid)->where('is_del',1)->get()->toArray();
+		$orderdata=CmsOrder::where('uid',session()->get('u_id'))->where('is_del',1)->get()->toArray();
 		if(!$orderdata){
 			die('无订单数据');
 		}else{
@@ -76,11 +76,11 @@ class OrderController extends Controller
 	/*
 	 * 订单删除*/
 	public function orderdel($order_number){
-		$orderdata=CmsOrder::where('order_number',$order_number)->where('uid',$this->uid)->first();
+		$orderdata=CmsOrder::where('order_number',$order_number)->where('uid',session()->get('u_id'))->first();
 		if(!$orderdata){
 			die('无订单信息');
 		}else{
-			$res=CmsOrder::where('order_number',$order_number)->where('uid',$this->uid)->update(['is_del'=>2]);
+			$res=CmsOrder::where('order_number',$order_number)->where('uid',session()->get('u_id'))->update(['is_del'=>2]);
 			if($res){
 				echo '取消订单成功';
 			}else{

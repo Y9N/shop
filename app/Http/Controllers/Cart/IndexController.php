@@ -13,14 +13,14 @@ use DB;
 
 class IndexController extends Controller
 {
-	public $uid;
+	/*public $uid;
 	public function __construct()
 	{
 		$this->middleware(function($request,$next){
 			$this->uid=session()->get('u_id');
 			return $next($request);
 		});
-	}
+	}*/
 
 	//
 	public function index(Request $request)
@@ -88,6 +88,7 @@ class IndexController extends Controller
 	{
 		$goods_id=$request->input('goods_id');
 		$buy_num=$request->input('buy_num');
+		$uid=session()->get('u_id');
 		$where=['goods_id'=>$goods_id];
 		$score=CmsGoods::where($where)->value('score');
 		if($score<=0||$buy_num>$score){
@@ -98,7 +99,7 @@ class IndexController extends Controller
 			return $response;
 		}
 		//检测是否重复购物
-		$cart_goods = CmsCart::where(['u_id'=>$this->uid])->get()->toArray();
+		$cart_goods = CmsCart::where(['u_id'=>$uid])->get()->toArray();
 		if($cart_goods){
 			$goods_id_arr = array_column($cart_goods,'goods_id');
 			if(in_array($goods_id,$goods_id_arr)){
