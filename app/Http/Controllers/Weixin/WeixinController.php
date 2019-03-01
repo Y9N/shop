@@ -346,15 +346,15 @@ class WeixinController extends Controller
             Redis::setTimeout($this->redis_weixin_jsapi_ticket,7200);       //设置过期时间 3600s
         }
         $jsconfig = [
-            'appid' => env('WEIXIN_APPID_0'),        //APPID
+            'appid' => env('WEIXIN_APPID'),        //APPID
             'timestamp' => time(),
             'noncestr'    => str_random(10)
         ];
         $current_url = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         $noncestr=$jsconfig['noncestr'];
         $timestamp=$jsconfig['timestamp'];
-        $jsapi_ticket="jsapi_ticket=$ticket&noncestr=$noncestr&timestamp=$timestamp&url=$current_url";
-        //echo $jsapi_ticket;die;
+        $jsapi_ticket="jsapi_ticket=".$ticket."&noncestr=".$noncestr."&timestamp=".$timestamp."&url=".$current_url."";
+        echo $jsapi_ticket;die;
         $signature=sha1($jsapi_ticket);
         //echo $signature;die;
         $jsconfig['sign'] = $signature;
