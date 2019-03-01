@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Storage;
 class WeixinController extends Controller
 {
     protected $redis_weixin_access_token = 'str:weixin_access_token';     //微信 access_token
+    protected $redis_weixin_jsapi_ticket = 'str:weixin_jsapi_ticket';     //微信 jsapi_ticket
     public function test()
     {
         echo 'Token: '. $this->getWXAccessToken();
@@ -338,23 +339,29 @@ class WeixinController extends Controller
         $access_token=$this->getWXAccessToken();
         $url="https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=".$access_token."&type=jsapi";
         $response = file_get_contents($url);
+        //var_dump($response);die;
         $ticket=json_decode($response)->ticket;
+        if(isset($ticket)){
+            Redis::set($this->redis_weixin_jsapi_ticket,$ticket);
+            Redis::setTimeout($this->redis_weixin_jsapi_ticket,3600);       //设置过期时间 3600s
+        }
         $jsconfig = [
             'appid' => env('WEIXIN_APPID_0'),        //APPID
             'timestamp' => time(),
-            'noncestr'    => str_random(10),
-            'sign'      => $this->wxJsConfigSign()
+            'noncestr'    => str_random(10)
         ];
         $current_url = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         $noncestr=$jsconfig['noncestr'];
         $timestamp=$jsconfig['timestamp'];
         $jsapi_ticket="$ticket&noncestr=$noncestr&timestamp=$timestamp&url=$current_url";
+        //echo $jsapi_ticket;die;
         $signature=sha1($jsapi_ticket);
         //echo $signature;die;
+        $jsconfig['sign'] = $signature;
         return view('weixin.jssdk',['jssdk'=>$jsconfig]);
     }
 
-    public function wxJsConfigSign(){
+/*    public function wxJsConfigSign(){
         return 'YC'.time().rand(1,9999);
-    }
+    }*/
 }
