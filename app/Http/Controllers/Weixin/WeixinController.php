@@ -335,12 +335,22 @@ class WeixinController extends Controller
      * jssdk哈
      */
     public function jssdk(){
+        $access_token=$this->getWXAccessToken();
+        $url="https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=".$access_token."&type=jsapi";
+        $response = file_get_contents($url);
+        $ticket=json_decode($response)->ticket;
         $jsconfig = [
             'appid' => env('WEIXIN_APPID_0'),        //APPID
             'timestamp' => time(),
             'noncestr'    => str_random(10),
             'sign'      => $this->wxJsConfigSign()
         ];
+        $current_url = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        $noncestr=$jsconfig['noncestr'];
+        $timestamp=$jsconfig['timestamp'];
+        $jsapi_ticket="$ticket&noncestr=$noncestr&timestamp=$timestamp&url=$current_url";
+        $signature=sha1($jsapi_ticket);
+        //echo $signature;die;
         return view('weixin.jssdk',['jssdk'=>$jsconfig]);
     }
 
