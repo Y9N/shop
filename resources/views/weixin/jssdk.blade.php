@@ -6,6 +6,7 @@
 @section('content')
     <button id="btn">上传图片</button>
     <button id="sys">微信扫一扫</button>
+    <button id="share">分享到朋友圈</button>
 @endsection
 @section('footer')
 @endsection
