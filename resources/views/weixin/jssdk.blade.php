@@ -48,8 +48,8 @@
                 desc: '李香玉吃屁吃屁', // 分享描述
                 link: 'https://yc.qianqianya.xyz', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
                 imgUrl: 'http://img3.imgtn.bdimg.com/it/u=599861680,1215723695&fm=11&gp=0.jpg', // 分享图标
-                success: function () {
-                    // 设置成功
+                success: function (res) {
+                    alert(res)
                 }
             })
         })
