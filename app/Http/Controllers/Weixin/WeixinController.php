@@ -353,7 +353,7 @@ class WeixinController extends Controller
         $current_url = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         $noncestr=$jsconfig['noncestr'];
         $timestamp=$jsconfig['timestamp'];
-        $jsapi_ticket="$ticket&noncestr=$noncestr&timestamp=$timestamp&url=$current_url";
+        $jsapi_ticket="jsapi_ticket=$ticket&noncestr=$noncestr&timestamp=$timestamp&url=$current_url";
         //echo $jsapi_ticket;die;
         $signature=sha1($jsapi_ticket);
         //echo $signature;die;
