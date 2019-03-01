@@ -331,4 +331,20 @@ class WeixinController extends Controller
         Redis::del($this->redis_weixin_access_token);
         echo $this->getWXAccessToken();
     }
+    /*
+     * jssdk哈
+     */
+    public function jssdk(){
+        $jsconfig = [
+            'appid' => env('WEIXIN_APPID_0'),        //APPID
+            'timestamp' => time(),
+            'noncestr'    => str_random(10),
+            'sign'      => $this->wxJsConfigSign()
+        ];
+        return view('weixin.jssdk',['jssdk'=>$jsconfig]);
+    }
+
+    public function wxJsConfigSign(){
+        return 'YC'.time().rand(1,9999);
+    }
 }
