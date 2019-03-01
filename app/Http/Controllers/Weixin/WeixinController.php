@@ -354,7 +354,7 @@ class WeixinController extends Controller
         $noncestr=$jsconfig['noncestr'];
         $timestamp=$jsconfig['timestamp'];
         $jsapi_ticket="jsapi_ticket=".$ticket."&noncestr=".$noncestr."&timestamp=".$timestamp."&url=".$current_url."";
-        echo $jsapi_ticket;die;
+        //echo $jsapi_ticket;die;
         $signature=sha1($jsapi_ticket);
         //echo $signature;die;
         $jsconfig['sign'] = $signature;
