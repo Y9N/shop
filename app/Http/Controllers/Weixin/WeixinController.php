@@ -336,15 +336,19 @@ class WeixinController extends Controller
      * jssdk哈
      */
     public function jssdk(){
-        $access_token=$this->getWXAccessToken();
-        $url="https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=".$access_token."&type=jsapi";
-        $response = file_get_contents($url);
-        //var_dump($response);die;
-        $ticket=json_decode($response)->ticket;
-        if(isset($ticket)){
-            Redis::set($this->redis_weixin_jsapi_ticket,$ticket);
-            Redis::setTimeout($this->redis_weixin_jsapi_ticket,7200);       //设置过期时间 3600s
+        $ticket = Redis::get($this->redis_weixin_jsapi_ticket);
+        if(!$ticket){
+            $access_token=$this->getWXAccessToken();
+            $url="https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=".$access_token."&type=jsapi";
+            $response = file_get_contents($url);
+            //var_dump($response);die;
+            $ticket=json_decode($response)->ticket;
+            if(isset($ticket)){
+                Redis::set($this->redis_weixin_jsapi_ticket,$ticket);
+                Redis::setTimeout($this->redis_weixin_jsapi_ticket,7200);       //设置过期时间 7200s
+            }
         }
+
         $jsconfig = [
             'appid' => env('WEIXIN_APPID'),        //APPID
             'timestamp' => time(),
