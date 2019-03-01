@@ -1,4 +1,15 @@
-jssdk
+@extends('layout.bst')
+@section('title')
+@endsection
+@section('header')
+@endsection
+@section('content')
+    <button id="btn">上传图片</button>
+@endsection
+@section('footer')
+@endsection
+
+<script src="{{URL::asset('/js/jquery-3.2.1.min.js')}}"></script>
 <script src="https://res2.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 <script>
     wx.config({
@@ -9,4 +20,15 @@ jssdk
         signature: "{{$jssdk['sign']}}",// 必填，签名
         jsApiList: ['chooseImage','uploadImage','getLocalImgData','startRecord'] // 必填，需要使用的JS接口列表
     });
+    $('#btn').click(function(){
+        wx.chooseImage({
+            count: 1, // 默认9
+            sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+            sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+            success: function (res) {
+                var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+            }
+        });
+    })
 </script>
+
