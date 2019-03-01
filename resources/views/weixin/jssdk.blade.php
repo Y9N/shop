@@ -19,7 +19,7 @@
         timestamp: {{$jssdk['timestamp']}}, // 必填，生成签名的时间戳
         nonceStr: "{{$jssdk['noncestr']}}", // 必填，生成签名的随机串
         signature: "{{$jssdk['sign']}}",// 必填，签名
-        jsApiList: ['chooseImage','uploadImage','getLocalImgData','startRecord','scanQRCode'] // 必填，需要使用的JS接口列表
+        jsApiList: ['chooseImage','uploadImage','getLocalImgData','startRecord','scanQRCode','updateAppMessageShareData'] // 必填，需要使用的JS接口列表
     });
     wx.ready(function(){
         $('#btn').click(function(){
@@ -40,6 +40,17 @@
                     var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
                 }
             });
+        })
+        $('#share').click(function(){
+            wx.updateAppMessageShareData({
+                title: '李香玉吃屁', // 分享标题
+                desc: '李香玉吃屁吃屁', // 分享描述
+                link: 'https://yc.qianqianya.xyz', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                imgUrl: 'http://img3.imgtn.bdimg.com/it/u=599861680,1215723695&fm=11&gp=0.jpg', // 分享图标
+                success: function () {
+                    // 设置成功
+                }
+            })
         })
     })
 </script>
