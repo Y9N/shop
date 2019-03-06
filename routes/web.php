@@ -103,16 +103,16 @@ Route::get('/upload','Goods\GoodsController@uploadPDF')->middleware('check.login
 Route::post('/PDF','Goods\GoodsController@PDF');
 
 
-Route::get('/redis','Goods\GoodsController@redis')->middleware('check.login.token');
+Route::get('/redis','Goods\GoodsController@redis');
 /*微信*/
-Route::get('/weixin/test','Weixin\WeixinController@test')->middleware('check.login.token');
-Route::get('/weixin/valid','Weixin\WeixinController@validToken')->middleware('check.login.token');
-Route::get('/weixin/valid1','Weixin\WeixinController@validToken1')->middleware('check.login.token');
-Route::post('/weixin/valid1','Weixin\WeixinController@wxEvent')->middleware('check.login.token');        //接收微信服务器事件推送
-Route::post('/weixin/valid','Weixin\WeixinController@validToken')->middleware('check.login.token');
-Route::get('/weixin/createMenu','Weixin\WeixinController@createMenu')->middleware('check.login.token'); ///创建服务号菜单
-Route::get('/weixin/refreshToken','Weixin\WeixinController@refreshToken')->middleware('check.login.token'); ///创建服务号菜单
-Route::post('/weixin/autosend','Weixin\WeixinController@autosend')->middleware('check.login.token'); //创建服务号菜单
+Route::get('/weixin/test','Weixin\WeixinController@test');
+Route::get('/weixin/valid','Weixin\WeixinController@validToken');
+Route::get('/weixin/valid1','Weixin\WeixinController@validToken1');
+Route::post('/weixin/valid1','Weixin\WeixinController@wxEvent');        //接收微信服务器事件推送
+Route::post('/weixin/valid','Weixin\WeixinController@validToken');
+Route::get('/weixin/createMenu','Weixin\WeixinController@createMenu'); ///创建服务号菜单
+Route::get('/weixin/refreshToken','Weixin\WeixinController@refreshToken'); ///创建服务号菜单
+Route::post('/weixin/autosend','Weixin\WeixinController@autosend'); //创建服务号菜单
 
 
 
