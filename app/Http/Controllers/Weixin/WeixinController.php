@@ -39,6 +39,7 @@ class WeixinController extends Controller
         $xml = simplexml_load_string($data);        //将 xml字符串 转换成对象
         $event = $xml->Event;                       //事件类型
         $openid = $xml->FromUserName;               //用户openid
+        var_dump($xml);die;;
         $log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
         file_put_contents('logs/wx_event.log',$log_str,FILE_APPEND);
         /*处理用户发送的请求*/

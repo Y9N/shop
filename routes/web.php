@@ -124,7 +124,7 @@ Route::post('/weixin/pay/ifsuccess','Weixin\PayController@ifsuccess')->middlewar
 
 
 
-Route::get('/weixin/getcode','Weixin\WeixinUserController@getCode'); ///判断是否支付成功
+Route::get('/weixin/getcode','Weixin\WeixinUserController@getCode'); ///
 
 
 Route::get('/weixin/jssdk','Weixin\WeixinController@jssdk'); ///jssdk
