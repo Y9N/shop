@@ -41,7 +41,6 @@ class WeixinController extends Controller
         $openid = $xml->FromUserName;               //用户openid
         $log_str = date('Y-m-d H:i:s') . "\n" . $data . "\n<<<<<<<";
         file_put_contents('logs/wx_event.log',$log_str,FILE_APPEND);
-        var_dump($xml);die;
         /*处理用户发送的请求*/
         if(isset($xml->MsgType)){
             if($xml->MsgType=='text'){
