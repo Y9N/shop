@@ -79,7 +79,7 @@ class WeixinAutoSendController extends Controller
             'body' => json_encode($param, JSON_UNESCAPED_UNICODE)
         ]);
         //var_dump($r);exit;
-        $response_arr = json_decode($r->getBody(), true);
+        $response_arr =json_decode($r->getBody(), true);
         //echo '<pre>';
         //print_r($response_arr);
         // echo '</pre>';
