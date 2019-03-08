@@ -109,7 +109,8 @@ class WeixinController extends Controller
         });
         $grid->subscribe_time('Subscribe time')->display(function($subscribe_time){
             return date('Y-m-d h:i:s',$subscribe_time);
-        });;
+        });
+        $grid->paginate(5);
         return $grid;
     }
 

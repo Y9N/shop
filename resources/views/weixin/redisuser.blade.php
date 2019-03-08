@@ -22,7 +22,7 @@
 {{--@endforeach--}}
 </table>
     @foreach($sign as $v)
-        <input type="button" class="btn" value="{{$v['id']}}">
+        <input type="button" class="btn" value="{{$v['name']}}">
     @endforeach
 </form>
 <script src="{{URL::asset('/js/jquery-3.2.1.min.js')}}"></script>
