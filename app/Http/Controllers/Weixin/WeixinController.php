@@ -203,8 +203,8 @@ class WeixinController extends Controller
             'headimgurl'        => $data['headimgurl'],
             'subscribe_time'    => $sub_time['0'],
         ];
-        //$user_data=json_encode($user_data);
-        Redis::hset($this->redis_weixin_user_info,$user_data);
+        $user_data=json_encode($user_data);
+        Redis::set($this->redis_weixin_user_info,$user_data);
         Redis::setTimeout($this->redis_weixin_user_info,3600);
         return $data;
     }
