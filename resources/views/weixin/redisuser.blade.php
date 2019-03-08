@@ -13,7 +13,7 @@
             <td>{{$v['add_time']}}</td>
             <td>{{$v['nickname']}}</td>
             <td>{{$v['sex']}}</td>
-            <td>{{$v['headimgurl']}}</td>
+            <td><img src="{{$v['headimgurl']}}" width="100"></td>
             <td>{{$v['subscribe_time']}}</td>
         </tr>
 @endforeach
