@@ -270,6 +270,6 @@ class WeixinController extends Controller
         return $content
             ->header('Index')
             ->description('description')
-            ->body(view('weixin.redisuser',['userinfo'=>$userinfo]));
+            ->body(view('weixin.redisuser',$userinfo));
     }
 }
