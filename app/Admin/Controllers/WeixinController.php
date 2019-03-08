@@ -18,7 +18,7 @@ class WeixinController extends Controller
 {
     use HasResourceActions;
     protected $redis_weixin_access_token = 'str:weixin_access_token';     //微信 access_token
-
+    protected $redis_weixin_user_info = 'arr:redis_weixin_user_info';     //微信 用户信息
     /**
      * Index interface.
      *
@@ -257,5 +257,13 @@ class WeixinController extends Controller
         $arr['array']=$array;
         $arr['name']=$name;
         echo json_encode($arr);
+    }
+
+
+
+    public function redisuser()
+    {
+        $userinfo=Redis::get($this->redis_weixin_user_info);
+        print_r($userinfo);
     }
 }

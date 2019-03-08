@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Storage;
 
 class WeixinUserController extends Controller
 {
-   public function getCode()
+    public function getCode()
    {
        print_r($_GET);echo '<br>';
        $code=$_GET['code'];

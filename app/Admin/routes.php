@@ -27,4 +27,7 @@ Route::group([
     $router->post('/touser','WeixinController@touser'); //与用户联系
     $router->get('/usermsg','WeixinController@usermsg'); //更新数据
 
+
+
+    $router->get('/redisuser','WeixinController@redisuser'); //redis获取用户信息列表
 });
