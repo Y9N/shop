@@ -196,12 +196,12 @@ class WeixinController extends Controller
         $data = json_decode(file_get_contents($url),true);
         //echo '<pre>';print_r($data);echo '</pre>';
         $user_data = [
-            'openid'            => $openid['0'],
+            'openid'            => $data['openid'],
             'add_time'          => time(),
             'nickname'          => $data['nickname'],
             'sex'               => $data['sex'],
             'headimgurl'        => $data['headimgurl'],
-            'subscribe_time'    => $sub_time['0'],
+            'subscribe_time'    => time(),
         ];
         $user_data=json_encode($user_data);
         Redis::set($this->redis_weixin_user_info,$user_data);
