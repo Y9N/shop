@@ -210,7 +210,7 @@ class WeixinController extends Controller
             Redis::set($this->redis_weixin_user_info,$info);
             Redis::setTimeout($this->redis_weixin_user_info,3600);
         }else{*/
-            $user_data=json_encode(['userinfo'=>$user_data]);
+            $user_data=json_encode($user_data);
             Redis::set($this->redis_weixin_user_info,$user_data);
             Redis::setTimeout($this->redis_weixin_user_info,3600);
         //}
