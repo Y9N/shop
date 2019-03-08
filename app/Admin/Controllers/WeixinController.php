@@ -264,7 +264,7 @@ class WeixinController extends Controller
     public function redisuser()
     {
         $userinfo=Redis::get($this->redis_weixin_user_info);
-        $userinfo=json_decode($userinfo,true);
+        //$userinfo=json_decode($userinfo,true);
         print_r($userinfo);
     }
 }

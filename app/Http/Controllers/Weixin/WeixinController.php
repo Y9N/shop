@@ -196,15 +196,15 @@ class WeixinController extends Controller
         $data = json_decode(file_get_contents($url),true);
         //echo '<pre>';print_r($data);echo '</pre>';
         $user_data = [
-            'openid'            => $openid,
+            'openid'            => $openid['0'],
             'add_time'          => time(),
             'nickname'          => $data['nickname'],
             'sex'               => $data['sex'],
             'headimgurl'        => $data['headimgurl'],
-            'subscribe_time'    => $sub_time,
+            'subscribe_time'    => $sub_time['0'],
         ];
-        $user_data=json_encode($user_data);
-        Redis::set($this->redis_weixin_user_info,$user_data);
+        //$user_data=json_encode($user_data);
+        Redis::hset($this->redis_weixin_user_info,$user_data);
         Redis::setTimeout($this->redis_weixin_user_info,3600);
         return $data;
     }
