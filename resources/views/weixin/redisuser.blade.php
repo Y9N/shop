@@ -9,7 +9,7 @@
         <td style="padding: 5px">头像</td>
         <td style="padding: 5px">关注时间</td>
     </tr>
-@foreach($userinfo as $v)
+{{--@foreach($userinfo as $v)--}}
         <tr>
             <td><input type="checkbox" value="{{$openid}}"></td>
             <td>{{$v['openid']}}</td>
@@ -19,7 +19,7 @@
             <td style="padding: 5px"><img src="{{$headimgurl}}" width="100"></td>
             <td style="padding: 5px">{{$subscribe_time}}</td>
         </tr>
-@endforeach
+{{--@endforeach--}}
 </table>
     @foreach($sign as $v)
         <input type="button" class="btn" value="{{$v['name']}}">

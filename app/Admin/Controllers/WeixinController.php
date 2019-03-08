@@ -266,7 +266,7 @@ class WeixinController extends Controller
         $userinfo=Redis::get($this->redis_weixin_user_info);
         $userinfo=json_decode($userinfo,true);
         $userinfo['sign']=$data['tags'];
-        print_r($userinfo);die;
+        //print_r($userinfo);die;
         return $content
             ->header('Index')
             ->description('description')
