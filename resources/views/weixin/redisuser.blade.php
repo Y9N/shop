@@ -10,11 +10,11 @@
 @foreach($userinfo as $v)
         <tr>
             <td>{{$v['openid']}}</td>
-            <td>{{$v['add_time']}}</td>
-            <td>{{$v['nickname']}}</td>
-            <td>{{$v['sex']}}</td>
-            <td><img src="{{$v['headimgurl']}}" width="100"></td>
-            <td>{{$v['subscribe_time']}}</td>
+            <td style="padding: 5px">{{$v['add_time']}}</td>
+            <td style="padding: 5px">{{$v['nickname']}}</td>
+            <td style="padding: 5px">{{$v['sex']}}</td>
+            <td style="padding: 5px"><img src="{{$v['headimgurl']}}" width="100"></td>
+            <td style="padding: 5px">{{$v['subscribe_time']}}</td>
         </tr>
 @endforeach
 </table>
