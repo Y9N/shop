@@ -11,13 +11,13 @@
     </tr>
 @foreach($userinfo as $v)
         <tr>
-            <td><input type="checkbox" value="{{$v['openid']}}"></td>
+            <td><input type="checkbox" value="{{$userinfo['openid']}}"></td>
             <td>{{$v['openid']}}</td>
-            <td style="padding: 5px">{{$v['add_time']}}</td>
-            <td style="padding: 5px">{{$v['nickname']}}</td>
-            <td style="padding: 5px">{{$v['sex']}}</td>
-            <td style="padding: 5px"><img src="{{$v['headimgurl']}}" width="100"></td>
-            <td style="padding: 5px">{{$v['subscribe_time']}}</td>
+            <td style="padding: 5px">{{$userinfo['add_time']}}</td>
+            <td style="padding: 5px">{{$userinfo['nickname']}}</td>
+            <td style="padding: 5px">{{$userinfo['sex']}}</td>
+            <td style="padding: 5px"><img src="{{$userinfo['headimgurl']}}" width="100"></td>
+            <td style="padding: 5px">{{$userinfo['subscribe_time']}}</td>
         </tr>
 @endforeach
 </table>
