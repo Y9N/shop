@@ -265,11 +265,12 @@ class WeixinController extends Controller
         $data=json_decode(file_get_contents($url),true);
         $userinfo=Redis::get($this->redis_weixin_user_info);
         $userinfo=json_decode($userinfo,true);
+        print_r($userinfo);die;
         //$userinfo['sign']=$data['tags'];
         //print_r($userinfo);die;
         return $content
             ->header('Index')
             ->description('description')
-            ->body(view('weixin.redisuser',$userinfo));
+            ->body(view('weixin.redisuser',['userinfo'=>$userinfo]));
     }
 }
