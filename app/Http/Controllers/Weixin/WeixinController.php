@@ -15,6 +15,7 @@ class WeixinController extends Controller
 {
     protected $redis_weixin_access_token = 'str:weixin_access_token';     //微信 access_token
     protected $redis_weixin_jsapi_ticket = 'str:weixin_jsapi_ticket';     //微信 jsapi_ticket
+    protected $redis_weixin_user_info = 'arr:redis_weixin_user_info';     //微信 jsapi_ticket
     public function test()
     {
         echo 'Token: '. $this->getWXAccessToken();
@@ -118,13 +119,13 @@ class WeixinController extends Controller
             }elseif($xml->MsgType=='event'){
                 //保存用户数据
                 if($event=='subscribe'){
-                    $xml_response = '<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['.'您好，我是小朝朝 (*╹▽╹*)'. date('Y-m-d H:i:s') .']]></Content></xml>';
+                    $xml_response = '<xml><ToUserName><![CDATA['.$openid.']]></ToUserName><FromUserName><![CDATA['.$xml->ToUserName.']]></FromUserName><CreateTime>'.time().'</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA['.'欢迎关注(*╹▽╹*)'. date('Y-m-d H:i:s') .']]></Content></xml>';
                     echo $xml_response;
                     $sub_time = $xml->CreateTime;//扫码关注时间
                     echo 'openid: '.$openid;echo '</br>';
                     echo '$sub_time: ' . $sub_time;
                     //获取用户信息
-                    $user_info = $this->getUserInfo($openid);
+                    $user_info = $this->getUserInfo($openid,$sub_time);
                     echo '<pre>';print_r($user_info);echo '</pre>';
                     //保存用户信息
                     $u = WeixinUser::where(['openid'=>$openid])->first();
@@ -186,7 +187,7 @@ class WeixinController extends Controller
      * 获取用户信息
      * @param $openid
      */
-    public function getUserInfo($openid)
+    public function getUserInfo($openid,$sub_time)
     {
         //$openid = 'oLreB1jAnJFzV_8AGWUZlfuaoQto';
         $access_token = $this->getWXAccessToken();
@@ -194,6 +195,16 @@ class WeixinController extends Controller
 
         $data = json_decode(file_get_contents($url),true);
         //echo '<pre>';print_r($data);echo '</pre>';
+        $user_data = [
+            'openid'            => $openid,
+            'add_time'          => time(),
+            'nickname'          => $data['nickname'],
+            'sex'               => $data['sex'],
+            'headimgurl'        => $data['headimgurl'],
+            'subscribe_time'    => $sub_time,
+        ];
+        Redis::set($this->redis_weixin_user_info,$user_data);
+        Redis::setTimeout($this->redis_weixin_user_info,3600);
         return $data;
     }
     /**
