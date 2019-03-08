@@ -263,8 +263,11 @@ class WeixinController extends Controller
 
     public function redisuser(Content $content)
     {
+        $url="https://api.weixin.qq.com/cgi-bin/tags/get?access_token=".$this->getWXAccessToken();
+        $data=json_decode(file_get_contents($url),true);
         $userinfo=Redis::get($this->redis_weixin_user_info);
         $userinfo=json_decode($userinfo,true);
+        $userinfo['sign']=$data['tags'];
         return $content
             ->header('Index')
             ->description('description')

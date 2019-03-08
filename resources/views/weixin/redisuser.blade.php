@@ -11,7 +11,7 @@
     </tr>
 @foreach($userinfo as $v)
         <tr>
-            <td><input type="checkbox"></td>
+            <td><input type="checkbox" value="{{$v['openid']}}"></td>
             <td>{{$v['openid']}}</td>
             <td style="padding: 5px">{{$v['add_time']}}</td>
             <td style="padding: 5px">{{$v['nickname']}}</td>
@@ -21,4 +21,15 @@
         </tr>
 @endforeach
 </table>
+    @foreach($sign as $v)
+        <input type="button" class="btn" value="{{$v['name']}}">
+    @endforeach
 </form>
+<script src="{{URL::asset('/js/jquery-3.2.1.min.js')}}"></script>
+<script>
+    $(function(){
+        $('.btn').click(function(){
+            console.log(111)
+        })
+    })
+</script>
