@@ -21,6 +21,7 @@ class VerifyCsrfToken extends Middleware
         '/admin/touser',
         '/admin/touser/msg',
         '/weixin/pay/notice',
-        '/weixin/pay/ifsuccess'
+        '/weixin/pay/ifsuccess',
+        '/admin/sign'
     ];
 }

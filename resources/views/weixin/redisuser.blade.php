@@ -22,14 +22,24 @@
 {{--@endforeach--}}
 </table>
     @foreach($sign as $v)
-        <input type="button" class="btn" value="{{$v['name']}}">
+        <input type="button" class="btn" value="{{$v['id']}}">
     @endforeach
 </form>
 <script src="{{URL::asset('/js/jquery-3.2.1.min.js')}}"></script>
 <script>
     $(function(){
         $('.btn').click(function(){
-            console.log(111)
+            var _this=$(this)
+            var id=_this.val()
+            var openid={{$openid}}
+            $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+            $.post(
+                    "sign",
+                    {id:id,openid:openid},
+                    function(msg){
+                        console.log(msg)
+                    }
+            )
         })
     })
 </script>

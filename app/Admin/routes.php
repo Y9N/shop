@@ -30,5 +30,5 @@ Route::group([
 
 
     $router->get('/redisuser','WeixinController@redisuser'); //redis获取用户信息列表
-    $router->get('/userinfo','WeixinController@userinfo'); //redis获取用户信息列表
+    $router->get('/sign','WeixinController@sign'); //给用户打标签
 });

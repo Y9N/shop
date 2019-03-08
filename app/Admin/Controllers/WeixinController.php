@@ -273,4 +273,11 @@ class WeixinController extends Controller
             ->description('description')
             ->body(view('weixin.redisuser',$userinfo));
     }
+
+    public function sign(Request $request)
+    {
+        $id=$request->input('id');
+        $openid=$request->input('openid');
+        echo $openid.'ahaha '.$id;
+    }
 }
