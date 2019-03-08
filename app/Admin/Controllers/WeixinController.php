@@ -259,8 +259,6 @@ class WeixinController extends Controller
         echo json_encode($arr);
     }
 
-
-
     public function redisuser(Content $content)
     {
         $url="https://api.weixin.qq.com/cgi-bin/tags/get?access_token=".$this->getWXAccessToken();
