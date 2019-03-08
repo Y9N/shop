@@ -15,7 +15,7 @@ class WeixinController extends Controller
 {
     protected $redis_weixin_access_token = 'str:weixin_access_token';     //微信 access_token
     protected $redis_weixin_jsapi_ticket = 'str:weixin_jsapi_ticket';     //微信 jsapi_ticket
-    protected $redis_weixin_user_info = 'arr:redis_weixin_user_info';     //微信 用户信息
+    protected $redis_weixin_user_info = 'str:redis_weixin_user_info';     //微信 用户信息
     public function test()
     {
         echo 'Token: '. $this->getWXAccessToken();
@@ -203,6 +203,7 @@ class WeixinController extends Controller
             'headimgurl'        => $data['headimgurl'],
             'subscribe_time'    => $sub_time,
         ];
+        $user_data=json_encode($user_data);
         Redis::set($this->redis_weixin_user_info,$user_data);
         Redis::setTimeout($this->redis_weixin_user_info,3600);
         return $data;

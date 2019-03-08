@@ -18,7 +18,7 @@ class WeixinController extends Controller
 {
     use HasResourceActions;
     protected $redis_weixin_access_token = 'str:weixin_access_token';     //微信 access_token
-    protected $redis_weixin_user_info = 'arr:redis_weixin_user_info';     //微信 用户信息
+    protected $redis_weixin_user_info = 'h:redis_weixin_user_info';     //微信 用户信息
     /**
      * Index interface.
      *
