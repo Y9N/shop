@@ -128,4 +128,8 @@ Route::get('/weixin/getcode','Weixin\WeixinUserController@getCode'); ///
 
 
 Route::get('/weixin/jssdk','Weixin\WeixinController@jssdk'); ///jssdk
+Route::any('/curl2','Curl\CurlController@curl2'); ///jssdk
+
+Route::post('/encrypt','Encrypt\EncryptController@encrypt'); ///
+Route::post('/sign','Encrypt\EncryptController@sign'); ///sign
 
