@@ -55,6 +55,12 @@ class IndexController extends Controller
 			];
 			echo json_encode($code);die;
 		}
-		
+		$data=[
+			'name'=>$_POST['name'],
+			'password'=>$_POST['pwd'],
+			'emall'=>$_POST['emall']
+		];
+		$id=UserModel::insertGetId($data);
+		echo json_encode($id);
 	}
 }
