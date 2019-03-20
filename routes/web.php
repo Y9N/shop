@@ -134,5 +134,6 @@ Route::post('/encrypt','Encrypt\EncryptController@encrypt'); ///
 Route::post('/sign','Encrypt\EncryptController@sign'); ///sign
 
 
-Route::post('/api','Api\IndexController@index'); ///sign
+Route::post('/api','Api\IndexController@index'); ///登录
+Route::post('/api/reg','Api\IndexController@reg'); ///注册
 

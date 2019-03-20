@@ -33,6 +33,7 @@ class IndexController extends Controller
 				];
 				echo json_encode($code);die;
 			}else{
+				$token = substr(md5(time().mt_rand(1,99999)),10,10);
 				$code=[
 					'error'=>'0',
 					'msg'=>'ok'
@@ -40,5 +41,9 @@ class IndexController extends Controller
 				echo json_encode($code);
 			}
 		}
+	}
+	public function reg()
+	{
+		echo json_encode($_POST);
 	}
 }
