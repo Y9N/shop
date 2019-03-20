@@ -44,6 +44,17 @@ class IndexController extends Controller
 	}
 	public function reg()
 	{
-		echo json_encode($_POST);
+		$name=$_POST['name'];
+		$pwd=md5($_POST['pwd']);
+		$info=UserModel::where('name',$name)->first()->toArray();
+		//print_r($info);die;
+		if($info){
+			$code=[
+					'error'=>'50001',
+					'msg'=>'This account has been registered, please login directly!'
+			];
+			echo json_encode($code);die;
+		}
+		
 	}
 }
