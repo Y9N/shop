@@ -25,6 +25,7 @@ class VerifyCsrfToken extends Middleware
         '/admin/sign',
         '/curl2',
         '/encrypt',
-        '/sign'
+        '/sign',
+        '/api'
     ];
 }
