@@ -18,7 +18,7 @@ class IndexController extends Controller
 		$name=$_POST['name'];
 		$pwd=md5($_POST['pwd']);
 		$info=UserModel::where('name',$name)->first()->toArray();
-		print_r($info);die;
+		//print_r($info);die;
 		if(!$info){
 			$code=[
 				'error'=>'10000',
