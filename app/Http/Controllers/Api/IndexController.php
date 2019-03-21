@@ -14,14 +14,18 @@ class IndexController extends Controller
 
 	public function index()
 	{
-		print_r($_POST);die;
+		$data=[
+			'name'=>$_POST['name'],
+			'pwd'=>$_POST['pwd']
+		];
 		$url="http://yycc.zty77.com/api";
 		$client = new GuzzleHttp\Client(['base_uri' => $url]);
 		$r = $client->request('POST', $url, [
 				'body' => json_encode($data,JSON_UNESCAPED_UNICODE)
 		]);
-		// 3 解析微信接口返回信息
+		// 3 解析laravel58接口返回信息
 		$response_arr = json_decode($r->getBody(),true);
+		var_dump($response_arr);
 		die;
 		$name=$_POST['name'];
 		$pwd=md5($_POST['pwd']);
