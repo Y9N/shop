@@ -6,7 +6,7 @@ use App\Model\UserModel;
 use App\Model\UserCart;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use GuzzleHttp;
+use GuzzleHttp\Client;
 use DB;
 
 class IndexController extends Controller
@@ -19,13 +19,9 @@ class IndexController extends Controller
 			'pwd'=>$_POST['pwd']
 		];
 		$url="http://yycc.zty77.com/api";
-		$client = new GuzzleHttp\Client(['base_uri' => $url]);
-		$r = $client->request('POST', $url, [
-				'body' => json_encode($data,JSON_UNESCAPED_UNICODE)
-		]);
-		// 3 解析laravel58接口返回信息
-		$response_arr = json_decode($r->getBody(),true);
-		var_dump($response_arr);
+		$client=new Client();
+		$rs=$client->request('POST',$url,$data);
+		echo ($rs->getBody());
 		die;
 		$name=$_POST['name'];
 		$pwd=md5($_POST['pwd']);
