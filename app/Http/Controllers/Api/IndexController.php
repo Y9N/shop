@@ -19,9 +19,15 @@ class IndexController extends Controller
 			'pwd'=>$_POST['pwd']
 		];
 		$url="http://yycc.zty77.com/api";
-		$client=new Client();
-		$rs=$client->request('POST',$url,$data);
-		echo ($rs->getBody());
+		$ch=curl_init();
+		curl_setopt($ch,CURLOPT_URL,$url);
+		curl_setopt($ch,CURLOPT_POST,true);//文件上传
+		curl_setopt($ch,CURLOPT_POSTFIELDS,$data); //文件上传
+		curl_setopt($ch,CURLOPT_HEADER,0);//不返回头部信息
+		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);//
+		//抓取url传给浏览器
+		$rs=curl_exec($ch);
+		var_dump($rs);
 		die;
 		$name=$_POST['name'];
 		$pwd=md5($_POST['pwd']);
