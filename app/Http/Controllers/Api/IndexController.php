@@ -2,19 +2,27 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Model\CmsCart;
-use App\Model\CmsGoods;
 use App\Model\UserModel;
 use App\Model\UserCart;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use GuzzleHttp;
 use DB;
 
 class IndexController extends Controller
 {
+
 	public function index()
 	{
+		print_r($_POST);die;
+		$url="http://yycc.zty77.com/api";
+		$client = new GuzzleHttp\Client(['base_uri' => $url]);
+		$r = $client->request('POST', $url, [
+				'body' => json_encode($data,JSON_UNESCAPED_UNICODE)
+		]);
+		// 3 解析微信接口返回信息
+		$response_arr = json_decode($r->getBody(),true);
+		die;
 		$name=$_POST['name'];
 		$pwd=md5($_POST['pwd']);
 		$info=UserModel::where('name',$name)->first()->toArray();
@@ -42,6 +50,7 @@ class IndexController extends Controller
 			}
 		}
 	}
+
 	public function reg()
 	{
 		$name=$_POST['name'];

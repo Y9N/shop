@@ -62,13 +62,15 @@ class OrderController extends Controller
 	 * 订单展示
 	 *
 	 * */
-	public  function orderlist(){
+	public  function orderlist(Request $request){
+		$islogin=$request->get('islogin');
 		$orderdata=CmsOrder::where('uid',session()->get('u_id'))->where('is_del',1)->get()->toArray();
 		if(!$orderdata){
 			die('无订单数据');
 		}else{
 			$data=[
-				'orderdata'=>$orderdata
+				'orderdata'=>$orderdata,
+				'islogin'=>$islogin
 			];
 			return view('order.order',$data);
 		}

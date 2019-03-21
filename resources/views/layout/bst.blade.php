@@ -34,7 +34,8 @@
                     <li><a href="#">分类2</a></li>
                     <li><a href="#">分类3</a></li>
                 </ul>
-                @if(session()->get('u_token'))
+                {{--session()->get('u_token')--}}
+                @if($islogin==1)
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">个人中心 <span class="caret"></span></a>
@@ -51,10 +52,11 @@
                         <li><a href="/cart2">购物车</a></li>
                         <li><a href="/userquit">退出</a></li>
                     </ul>
-                @elseif(!session()->get('u_token'))
+                    {{--!session()->get('u_token')--}}
+                @else
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/userlogin">登录</a></li>
-                        <li><a href="/userreg">注册</a></li>
+                        <li><a href="http://passport.shop.com/login">登录</a></li>{{--/userlogin--}}
+                        <li><a href="http://passport.shop.com/reg">注册</a></li>{{--/userreg--}}
                         <li><a href="https://open.weixin.qq.com/connect/qrconnect?appid=wxe24f70961302b5a5&amp;redirect_uri=http%3a%2f%2fmall.77sc.com.cn%2fweixin.php%3fr1%3dhttps://yc.qianqianya.xyz/weixin/getcode&amp;response_type=code&amp;scope=snsapi_login&amp;state=STATE#wechat_redirect">微信登录</a></li>
                     </ul>
                 @endif
