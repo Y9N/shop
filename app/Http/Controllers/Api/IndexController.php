@@ -16,8 +16,7 @@ class IndexController extends Controller
 	{
 		$data=[
 			'name'=>$_POST['name'],
-			'pwd'=>$_POST['pwd'],
-			'type'=>$_POST['type']
+			'pwd'=>$_POST['pwd']
 		];
 		$url="http://yycc.zty77.com/api";
 		$ch=curl_init();
