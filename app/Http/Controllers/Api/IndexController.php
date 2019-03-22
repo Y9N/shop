@@ -16,7 +16,8 @@ class IndexController extends Controller
 	{
 		$data=[
 			'name'=>$_POST['name'],
-			'pwd'=>$_POST['pwd']
+			'pwd'=>$_POST['pwd'],
+			'type'=>$_POST['type']
 		];
 		$url="http://yycc.zty77.com/api";
 		$ch=curl_init();
@@ -28,33 +29,6 @@ class IndexController extends Controller
 		//抓取url传给浏览器
 		$rs=curl_exec($ch);
 		var_dump($rs);
-		die;
-		$name=$_POST['name'];
-		$pwd=md5($_POST['pwd']);
-		$info=UserModel::where('name',$name)->first()->toArray();
-		//print_r($info);die;
-		if(!$info){
-			$code=[
-				'error'=>'10000',
-				'msg'=>'Wrong account or password!'
-			];
-			echo json_encode($code);die;
-		}else{
-			if($pwd!=$info['password']){
-				$code=[
-						'error'=>'10000',
-						'msg'=>'Wrong account or password!'
-				];
-				echo json_encode($code);die;
-			}else{
-				$token = substr(md5(time().mt_rand(1,99999)),10,10);
-				$code=[
-					'error'=>'0',
-					'msg'=>'ok'
-				];
-				echo json_encode($code);
-			}
-		}
 	}
 
 	public function reg()
