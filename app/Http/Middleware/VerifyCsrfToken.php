@@ -27,6 +27,7 @@ class VerifyCsrfToken extends Middleware
         '/encrypt',
         '/sign',
         '/api',
-        '/api/*'
+        '/api/*',
+        '/*'
     ];
 }
