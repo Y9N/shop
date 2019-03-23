@@ -27,7 +27,7 @@ class IndexController extends Controller
 		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);//
 		//抓取url传给浏览器
 		$rs=curl_exec($ch);
-		return json_encode($rs);
+		return json_decode($rs);
 	}
 
 	public function reg()
