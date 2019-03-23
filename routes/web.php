@@ -136,6 +136,7 @@ Route::post('/sign','Encrypt\EncryptController@sign'); ///sign
 
 Route::post('/api','Api\IndexController@index'); ///登录
 Route::post('/token','Api\IndexController@token'); ///验证token
+Route::post('/quit','Api\IndexController@quit'); ///验证token
 
 
 Route::post('/api/reg','Api\IndexController@reg'); ///注册
