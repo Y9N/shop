@@ -31,4 +31,9 @@ Route::group([
 
     $router->get('/redisuser','WeixinController@redisuser'); //redis获取用户信息列表
     $router->get('/sign','WeixinController@sign'); //给用户打标签
+
+    $router->get('/yuekao','YueKaoController@index'); //视图
+    $router->get('/pass','YueKaoController@pass'); //通过
+    $router->get('/nopass','YueKaoController@nopass'); //不通过
+    $router->post('/nopass','YueKaoController@nopass_do'); //不通过
 });

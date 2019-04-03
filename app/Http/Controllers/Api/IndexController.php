@@ -80,7 +80,7 @@ class IndexController extends Controller
 		}
 		$data=[
 			'name'=>$_POST['name'],
-			'password'=>$_POST['pwd'],
+			'password'=>$pwd,
 			'email'=>$_POST['emall']
 		];
 		$id=UserModel::insertGetId($data);

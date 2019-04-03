@@ -141,3 +141,11 @@ Route::post('/quit','Api\IndexController@quit'); ///验证token
 
 Route::post('/api/reg','Api\IndexController@reg'); ///注册
 
+
+Route::get('/yuekao','Yuekao\YuekaoController@index'); ///月考注册视图
+Route::post('/yuekao','Yuekao\YuekaoController@reg')/*->middleware('check.yuekao')*/; ///月考注册
+Route::post('/reg_do','Yuekao\YuekaoController@reg_do'); ///月考注册
+
+
+
+
